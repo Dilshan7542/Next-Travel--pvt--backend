@@ -25,7 +25,7 @@ public class Hotel {
     @Column(columnDefinition = "MEDIUMBLOB")
     byte[] image;
     int starRate;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "hotel_option")
     List<HotelOption> hotelOption;
 }

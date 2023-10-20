@@ -1,6 +1,7 @@
 package lk.travel.vehicleservice.security;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lk.travel.vehicleservice.constant.SecurityConstant;
 import lk.travel.vehicleservice.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -35,12 +36,11 @@ public class AuthenticationConfig implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
-
         String pwd = authentication.getCredentials().toString();
         HttpHeaders httpHeaders=new HttpHeaders();
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes(); // get Basic auth Header
         httpHeaders.set(HttpHeaders.AUTHORIZATION,requestAttributes.getRequest().getHeader(HttpHeaders.AUTHORIZATION));
-        UserDTO userDTO = restTemplate.exchange("http://localhost:8084/api/v1/user/search/email?email=" + username, HttpMethod.GET, new HttpEntity<>(httpHeaders), UserDTO.class).getBody();
+        UserDTO userDTO = restTemplate.exchange(SecurityConstant.USER_URL + username, HttpMethod.GET, new HttpEntity<>(httpHeaders), UserDTO.class).getBody();
         if (userDTO != null) {
             if(passwordEncoder.matches(pwd,userDTO.getPwd())){
                 return new UsernamePasswordAuthenticationToken(username,pwd,getGenerateAuthorities(userDTO.getRole().name()));
