@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.travel.vehicleservice.constant.SecurityConstant;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,14 +27,17 @@ public class JwtGenerateFilter extends OncePerRequestFilter {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication!=null) {
             SecretKey secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-            Jwts.builder()
+            String newToken = Jwts.builder()
                     .setSubject("Next-Travel")
                     .setIssuer("DILSHAN")
-                    .claim("username",authentication.getName())
-                    .claim("authorities",populateAuthorities(authentication.getAuthorities()))
+                    .claim("username", authentication.getName())
+                    .claim("authorities", populateAuthorities(authentication.getAuthorities()))
                     .setIssuedAt(new Date())
-                    .setExpiration(new Date());
+                    .setExpiration(new Date(new Date().getTime() + 604800000))
+                    .signWith(secretKey).compact();
+            response.setHeader(HttpHeaders.AUTHORIZATION,newToken);
         }
+        filterChain.doFilter(request,response);
     }
 
     private String populateAuthorities(Collection<? extends GrantedAuthority> collection) {
