@@ -28,6 +28,7 @@ public class JwtValidateFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String tokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        System.out.println(tokenHeader);
         if(tokenHeader != null && !tokenHeader.startsWith("Basic")) {
             SecretKey secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));
         tokenHeader=tokenHeader.startsWith("Bearer ") ? tokenHeader.substring(7):tokenHeader;
@@ -42,6 +43,7 @@ public class JwtValidateFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(userNamePwdToken);
 
         }
+
         filterChain.doFilter(request,response);
 
     }

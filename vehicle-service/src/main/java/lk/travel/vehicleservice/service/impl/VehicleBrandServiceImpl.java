@@ -16,20 +16,21 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class VehicleBrandServiceImpl implements VehicleBrandService {
-    private VehicleBrandRepo vehicleBrandRepo;
-    private ModelMapper mapper;
+    private final VehicleBrandRepo vehicleBrandRepo;
+    private final ModelMapper mapper;
+
     @Override
     public VehicleBrandDTO saveVehicleBrand(VehicleBrandDTO vehicleBrandDTO) {
-            if(vehicleBrandRepo.existsById(vehicleBrandDTO.getVehicleID())){
-                throw new RuntimeException("Vehicle Brand Already Exists..!!");
-            }
-            vehicleBrandRepo.save(mapper.map(vehicleBrandDTO, VehicleBrand.class));
+        if (vehicleBrandRepo.existsById(vehicleBrandDTO.getVehicleID())) {
+            throw new RuntimeException("Vehicle Brand Already Exists..!!");
+        }
+        vehicleBrandRepo.save(mapper.map(vehicleBrandDTO, VehicleBrand.class));
         return vehicleBrandDTO;
     }
 
     @Override
     public VehicleBrandDTO updateVehicleBrand(VehicleBrandDTO vehicleBrandDTO) {
-        if(!vehicleBrandRepo.existsById(vehicleBrandDTO.getVehicleID())){
+        if (!vehicleBrandRepo.existsById(vehicleBrandDTO.getVehicleID())) {
             throw new RuntimeException("Vehicle Brand Not Exists..!!");
         }
         vehicleBrandRepo.save(mapper.map(vehicleBrandDTO, VehicleBrand.class));
@@ -38,15 +39,15 @@ public class VehicleBrandServiceImpl implements VehicleBrandService {
 
     @Override
     public VehicleBrandDTO searchVehicleBrand(int vehicleID) {
-        if(!vehicleBrandRepo.existsById(vehicleID)){
+        if (!vehicleBrandRepo.existsById(vehicleID)) {
             throw new RuntimeException("Vehicle Brand Not Exists..!!");
         }
-        return mapper.map(vehicleBrandRepo.findById(vehicleID),VehicleBrandDTO.class);
+        return mapper.map( vehicleBrandRepo.findById(vehicleID), VehicleBrandDTO.class);
     }
 
     @Override
     public void deleteVehicleBrand(int vehicleID) {
-        if(!vehicleBrandRepo.existsById(vehicleID)){
+        if (!vehicleBrandRepo.existsById(vehicleID)) {
             throw new RuntimeException("Vehicle Brand Not Exists..!!");
         }
         vehicleBrandRepo.deleteById(vehicleID);
@@ -54,6 +55,7 @@ public class VehicleBrandServiceImpl implements VehicleBrandService {
 
     @Override
     public List<VehicleBrandDTO> getAllVehicleBrand() {
-        return mapper.map(vehicleBrandRepo.findAll(),new TypeToken<List<VehicleBrandDTO>>(){}.getType());
+        return mapper.map(vehicleBrandRepo.findAll(), new TypeToken<List<VehicleBrandDTO>>() {
+        }.getType());
     }
 }

@@ -13,6 +13,7 @@ public class AppWideExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> getException(Exception e){
+        e.printStackTrace();
         return ResponseEntity.ok(e.getMessage());
     }
 }

@@ -23,6 +23,7 @@ public class JwtValidatorFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+        System.out.println(header);
         if(header !=null && !header.startsWith("Basic")){
             header=header.startsWith("Bearer ") ? header.substring(7):header;
             SecretKey secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));

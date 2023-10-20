@@ -16,8 +16,8 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class VehicleCategoryServiceImpl implements VehicleCategoryService {
-    VehicleCategoryRepo vehicleCategoryRepo;
-    ModelMapper mapper;
+   private final VehicleCategoryRepo vehicleCategoryRepo;
+   private final ModelMapper mapper;
     @Override
     public VehicleCategoryDTO saveVehicleCategory(VehicleCategoryDTO vehicleCategoryDTO) {
             if(vehicleCategoryRepo.existsById(vehicleCategoryDTO.getVehicleCategoryID())){

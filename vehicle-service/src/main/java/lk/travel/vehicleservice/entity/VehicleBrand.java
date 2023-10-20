@@ -19,6 +19,7 @@ public class VehicleBrand implements SuperEntity {
     double fuel1KM;
     double fee1Day;
     @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
     byte[] image;
     @ManyToOne
     @JoinColumn(name = "vehicleCategoryID")

@@ -36,7 +36,7 @@ public class SecurityConfig {
                     corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
                     corsConfiguration.setExposedHeaders(Collections.singletonList(HttpHeaders.AUTHORIZATION));
                     corsConfiguration.setAllowCredentials(true);
-                    corsConfiguration.setMaxAge(3600L);
+                    corsConfiguration.setMaxAge(5000L);
                     return corsConfiguration;
                 }
             });
@@ -47,7 +47,10 @@ public class SecurityConfig {
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         )
                 .addFilterBefore(new JwtValidatorFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .authorizeHttpRequests( request->{
+                   request.requestMatchers("/api/v1/vehicle/**").hasAnyRole("MANAGER","ADMIN") .anyRequest().authenticated();
+                });
        return httpSecurity.httpBasic(Customizer.withDefaults()).build();
     }
     @Bean
