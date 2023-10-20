@@ -1,9 +1,15 @@
 package lk.travel.vehicleservice.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-public class VehicleBrand implements SuperEntity{
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+public class VehicleBrand implements SuperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int vehicleID;
@@ -13,7 +19,8 @@ public class VehicleBrand implements SuperEntity{
     double fuel1KM;
     double fee1Day;
     @Lob
-    byte [] image;
+    byte[] image;
     @ManyToOne
+    @JoinColumn(name = "vehicleCategoryID")
     VehicleCategory vehicleCategory;
 }
