@@ -8,28 +8,27 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="travel-service" />
+        <module name="auth-service" />
         <module name="discovery-server" />
         <module name="vehicle-service" />
         <module name="customer-service" />
         <module name="booking-service" />
         <module name="api-gateway" />
-        <module name="user-service" />
         <module name="hotel-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="admin-service" target="1.7" />
-      <module name="auth-service" target="1.7" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
+      <module name="auth-service" options="-parameters" />
       <module name="booking-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />
       <module name="hotel-service" options="-parameters" />
       <module name="travel-service" options="-parameters" />
-      <module name="user-service" options="-parameters" />
       <module name="vehicle-service" options="-parameters" />
     </option>
   </component>

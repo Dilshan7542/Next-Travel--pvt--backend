@@ -30,7 +30,7 @@ public class HotelController {
     public ResponseEntity<HotelDTO> updateImageHotel(@RequestPart byte[] image, @RequestParam int hotelID) {
         HotelDTO hotelDTO = hotelService.searchHotel(hotelID);
         hotelDTO.setImage(image);
-        return new ResponseEntity(hotelDTO, HttpStatus.OK);
+        return new ResponseEntity(hotelService.updateHotel(hotelDTO), HttpStatus.OK);
     }
 
     @GetMapping(path = "search", params = "hotelID")

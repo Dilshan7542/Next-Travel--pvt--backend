@@ -1,8 +1,5 @@
 package lk.travel.vehicleservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lk.travel.vehicleservice.entity.SuperEntity;
 import lombok.*;
 
 
@@ -12,13 +9,13 @@ import lombok.*;
 @Setter
 @ToString
 public class VehicleBrandDTO {
-    int vehicleID;
-    String brandName;
-    int seat;
-    double fee1KM;
-    double fuel1KM;
-    double fee1Day;
-  byte [] image;
+    private int vehicleID;
+    private String brandName;
+    private int seat;
+    private double fee1KM;
+    private double fuel1KM;
+    private double fee1Day;
+    private byte[] image;
 
-    VehicleCategoryDTO vehicleCategory;
+    private VehicleCategoryDTO vehicleCategory;
 }

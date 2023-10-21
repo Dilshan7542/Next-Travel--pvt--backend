@@ -16,9 +16,11 @@ import java.util.List;
 public class VehicleCategory implements SuperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int vehicleCategoryID;
-    String categoryName;
+    @Column(nullable = false)
+   private int vehicleCategoryID;
+    @Column(nullable = false)
+   private String categoryName;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehicleCategory")
-    List<VehicleBrand> vehicleBrandList;
+    private List<VehicleBrand> vehicleBrandList;
 }

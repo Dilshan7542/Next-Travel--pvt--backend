@@ -12,16 +12,21 @@ import lombok.*;
 public class VehicleBrand implements SuperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int vehicleID;
-    String brandName;
-    int seat;
-    double fee1KM;
-    double fuel1KM;
-    double fee1Day;
+   private int vehicleID;
+    @Column(nullable = false)
+   private String brandName;
+    @Column(nullable = false)
+   private int seat;
+    @Column(nullable = false)
+   private double fee1KM;
+    @Column(nullable = false)
+   private double fuel1KM;
+    @Column(nullable = false)
+   private double fee1Day;
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
-    byte[] image;
+   private byte[] image;
     @ManyToOne
     @JoinColumn(name = "vehicleCategoryID")
-    VehicleCategory vehicleCategory;
+   private VehicleCategory vehicleCategory;
 }

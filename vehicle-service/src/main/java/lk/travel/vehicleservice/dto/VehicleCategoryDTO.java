@@ -14,10 +14,10 @@ import java.util.List;
 @Data
 
 public class VehicleCategoryDTO  {
-    int vehicleCategoryID;
-    String categoryName;
+   private int vehicleCategoryID;
+   private String categoryName;
     @JsonIgnore
-    List<VehicleBrandDTO> vehicleBrandList;
+   private List<VehicleBrandDTO> vehicleBrandList;
 
     public VehicleCategoryDTO(int vehicleCategoryID) {
         this.vehicleCategoryID = vehicleCategoryID;

@@ -12,13 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 public class HotelDTO {
-    int hotelID;
-    String name;
-    String email;
-    String location;
-    String map;
-    String tel;
-    byte[] image;
-    int starRate;
-    List<HotelOptionDTO> hotelOption;
+   private int hotelID;
+   private String name;
+   private String email;
+   private String location;
+   private String map;
+   private String tel;
+   private byte[] image;
+   private int starRate;
+   private List<HotelOptionDTO> hotelOption;
 }
