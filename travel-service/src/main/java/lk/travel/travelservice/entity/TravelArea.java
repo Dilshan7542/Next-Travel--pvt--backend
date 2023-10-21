@@ -17,7 +17,4 @@ public class TravelArea {
     private int travelAreaID;
     @Column(nullable = false)
     private String areaName;
-    @ManyToOne
-    @JoinColumn(name = "travelID")
-    private Travel travel;
 }

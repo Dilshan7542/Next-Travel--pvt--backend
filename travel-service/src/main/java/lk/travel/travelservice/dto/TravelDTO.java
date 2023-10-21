@@ -1,6 +1,6 @@
 package lk.travel.travelservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TravelDTO{
-    private int travelID ;
+public class TravelDTO {
+    private int travelID;
+   // @JsonFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "yyy-MM-dd")
     private LocalDate startDate;
+    @JsonFormat(pattern = "yyy-MM-dd")
     private LocalDate endDate;
     private int countDay;
     private int countNight;
@@ -27,6 +30,5 @@ public class TravelDTO{
     private double paidValue;
     private String remark;
     private TravelCategoryDTO travelCategoryDTO;
-    @JsonIgnore
-    private List<TravelAreaDTO> travelAreaList;
+    private List<TravelLocationDTO> travelLocationList;
 }

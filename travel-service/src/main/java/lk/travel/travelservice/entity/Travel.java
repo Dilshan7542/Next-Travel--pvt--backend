@@ -31,10 +31,10 @@ public class Travel implements SuperEntity{
     private int guide;
     private double paidValue;
     private String remark;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "travel_location",joinColumns = @JoinColumn(name = "travelID"))
+    private List<TravelLocation> travelLocationList;
     @ManyToOne
     @JoinColumn(name = "travel_categoryID")
     private TravelCategory travelCategory;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "travel")
-    @JsonIgnore
-    private List<TravelArea> travelAreaList;
 }

@@ -12,5 +12,4 @@ import lombok.Setter;
 public class TravelAreaDTO {
     private int travelAreaID;
     private String areaName;
-    private TravelDTO travelDTO;
 }
