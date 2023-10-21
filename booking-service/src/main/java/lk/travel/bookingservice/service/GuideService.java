@@ -1,6 +1,6 @@
-package lk.travel.authservice.service;
+package lk.travel.bookingservice.service;
 
-import lk.travel.authservice.dto.GuideDTO;
+import lk.travel.bookingservice.dto.GuideDTO;
 
 import java.util.List;
 

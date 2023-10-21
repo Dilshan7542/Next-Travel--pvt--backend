@@ -1,9 +1,9 @@
-package lk.travel.authservice.service.impl;
+package lk.travel.bookingservice.service.impl;
 
-import lk.travel.authservice.dto.GuideDTO;
-import lk.travel.authservice.entity.Guide;
-import lk.travel.authservice.repo.GuideRepo;
-import lk.travel.authservice.service.GuideService;
+import lk.travel.bookingservice.dto.GuideDTO;
+import lk.travel.bookingservice.entity.Guide;
+import lk.travel.bookingservice.repo.GuideRepo;
+import lk.travel.bookingservice.service.GuideService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;

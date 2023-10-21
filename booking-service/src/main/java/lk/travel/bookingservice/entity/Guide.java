@@ -1,4 +1,4 @@
-package lk.travel.authservice.entity;
+package lk.travel.bookingservice.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

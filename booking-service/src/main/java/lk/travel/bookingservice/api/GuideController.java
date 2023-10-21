@@ -1,12 +1,13 @@
-package lk.travel.authservice.api;
+package lk.travel.bookingservice.api;
 
-import lk.travel.authservice.dto.GuideDTO;
-import lk.travel.authservice.service.GuideService;
+import lk.travel.bookingservice.dto.GuideDTO;
+import lk.travel.bookingservice.service.GuideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/guide")

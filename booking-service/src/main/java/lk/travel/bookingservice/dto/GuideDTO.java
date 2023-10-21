@@ -1,4 +1,4 @@
-package lk.travel.authservice.dto;
+package lk.travel.bookingservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
