@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JwtGenerateFilter(), BasicAuthenticationFilter.class)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/customer/register").permitAll().requestMatchers("/api/v1/customer/**").authenticated());
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/customer/register").permitAll().requestMatchers("/api/v1/customer/**","/api/v1/booking/**").authenticated());
 
       return   httpSecurity.httpBasic(Customizer.withDefaults()).build();
     }

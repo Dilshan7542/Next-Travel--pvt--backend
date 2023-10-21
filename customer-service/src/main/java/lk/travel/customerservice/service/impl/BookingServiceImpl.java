@@ -1,9 +1,10 @@
-package lk.travel.bookingservice.service.impl;
+package lk.travel.customerservice.service.impl;
 
-import lk.travel.bookingservice.dto.BookingDTO;
-import lk.travel.bookingservice.entity.Booking;
-import lk.travel.bookingservice.repo.BookingRepo;
-import lk.travel.bookingservice.service.BookingService;
+
+import lk.travel.customerservice.dto.BookingDTO;
+import lk.travel.customerservice.entity.Booking;
+import lk.travel.customerservice.repo.BookingRepo;
+import lk.travel.customerservice.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -52,6 +53,12 @@ public class BookingServiceImpl implements BookingService {
             throw new RuntimeException("Booking NotExist..!");
         }
         return mapper.map(byId.get(), BookingDTO.class);
+    }
+
+    @Override
+    public List<BookingDTO> searchBookingCustomerID(int customerID) {
+        return mapper.map(bookingRepo.findByCustomerCustomerID(customerID),  new TypeToken<List<BookingDTO>>() {
+        }.getType());
     }
 
     @Override

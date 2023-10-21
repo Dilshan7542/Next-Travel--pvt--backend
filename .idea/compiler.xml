@@ -12,13 +12,13 @@
         <module name="discovery-server" />
         <module name="vehicle-service" />
         <module name="customer-service" />
-        <module name="booking-service" />
         <module name="api-gateway" />
         <module name="hotel-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="admin-service" target="1.7" />
+      <module name="booking-service" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

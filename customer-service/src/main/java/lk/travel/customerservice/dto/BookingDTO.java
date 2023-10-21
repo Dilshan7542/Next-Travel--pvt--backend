@@ -1,4 +1,4 @@
-package lk.travel.bookingservice.dto;
+package lk.travel.customerservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -21,9 +21,9 @@ public class BookingDTO {
     private LocalTime time;
     private double paidValue;
     private boolean paymentStatus;
-    private int customerID;
     private int travelID;
     private int hotelID;
     private int vehicleID;
     private int guideID;
+    private CustomerDTO customer;
 }

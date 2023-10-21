@@ -10,13 +10,15 @@ import org.springframework.web.client.RestTemplate;
 public class CustomerServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(CustomerServiceApplication.class);
-        }
-        @Bean
-    public RestTemplate restTemplate(){
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 }

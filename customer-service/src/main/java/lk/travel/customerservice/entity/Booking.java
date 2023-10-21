@@ -1,7 +1,10 @@
-package lk.travel.bookingservice.entity;
+package lk.travel.customerservice.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
@@ -26,13 +29,14 @@ public class Booking {
     @Column(nullable = false)
     private boolean paymentStatus;
     @Column(nullable = false)
-    private int customerID;
-    @Column(nullable = false)
-    private int travelID;
-    @Column(nullable = false)
     private int hotelID;
     @Column(nullable = false)
     private int vehicleID;
     private int guideID;
+    @Column(nullable = false)
+    private int travelID;
+   @ManyToOne
+   @JoinColumn(name = "customerID")
+    private Customer customer;
 
 }

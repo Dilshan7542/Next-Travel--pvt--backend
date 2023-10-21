@@ -1,9 +1,9 @@
-package lk.travel.bookingservice.service.impl;
+package lk.travel.hotelservice.service.impl;
 
-import lk.travel.bookingservice.dto.GuideDTO;
-import lk.travel.bookingservice.entity.Guide;
-import lk.travel.bookingservice.repo.GuideRepo;
-import lk.travel.bookingservice.service.GuideService;
+import lk.travel.hotelservice.dto.GuideDTO;
+import lk.travel.hotelservice.entity.Guide;
+import lk.travel.hotelservice.repo.GuideRepo;
+import lk.travel.hotelservice.service.GuideService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

@@ -17,19 +17,19 @@ public class CustomerController {
    private final CustomerService customerService;
    private final PasswordEncoder passwordEncoder;
     @PostMapping("/register")
-    public ResponseEntity<CustomerDTO> saveTravelCategory(@RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody CustomerDTO customerDTO) {
         customerDTO.setPwd(passwordEncoder.encode(customerDTO.getPwd()));
         return new ResponseEntity<>(customerService.saveCustomer(customerDTO), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<CustomerDTO> updateTravelCategory(@RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO) {
         customerDTO.setPwd(passwordEncoder.encode(customerDTO.getPwd()));
         return new ResponseEntity<>(customerService.updateCustomer(customerDTO), HttpStatus.OK);
     }
 
     @GetMapping(path = "search", params = "customerID")
-    public ResponseEntity<CustomerDTO> searchTravelCategory(@RequestParam int customerID) {
+    public ResponseEntity<CustomerDTO> searchCustomer(@RequestParam int customerID) {
         return new ResponseEntity<>(customerService.searchCustomer(customerID), HttpStatus.OK);
     }
     @GetMapping(path = "search/email", params = "email")
@@ -38,13 +38,13 @@ public class CustomerController {
     }
 
     @DeleteMapping(params = "customerID")
-    public ResponseEntity<CustomerDTO> deleteTravelCategory(@RequestParam int customerID) {
+    public ResponseEntity<CustomerDTO> deleteCustomer(@RequestParam int customerID) {
         customerService.deleteCustomer(customerID);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerDTO>> getAllTravelCategory() {
+    public ResponseEntity<List<CustomerDTO>> getAllCustomer() {
         return new ResponseEntity<>(customerService.getAllCustomer(), HttpStatus.OK);
     }
 }

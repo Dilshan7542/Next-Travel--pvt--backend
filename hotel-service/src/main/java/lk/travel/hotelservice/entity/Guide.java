@@ -1,4 +1,4 @@
-package lk.travel.bookingservice.entity;
+package lk.travel.hotelservice.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

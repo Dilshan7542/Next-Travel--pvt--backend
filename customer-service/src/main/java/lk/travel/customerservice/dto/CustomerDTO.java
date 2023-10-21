@@ -1,8 +1,11 @@
 package lk.travel.customerservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,4 +19,6 @@ public class CustomerDTO {
     private String address;
     private String tel;
     private byte[] image;
+    @JsonIgnore
+    private List<BookingDTO> bookingList;
 }

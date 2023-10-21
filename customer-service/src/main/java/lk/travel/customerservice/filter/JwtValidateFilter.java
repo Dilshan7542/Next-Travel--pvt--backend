@@ -8,19 +8,25 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.travel.customerservice.constant.SecurityConstant;
+import lk.travel.customerservice.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Function;
-
+@Component
 public class JwtValidateFilter extends OncePerRequestFilter {
+    @Autowired
+   private CustomerService customerService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String tokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -33,6 +39,7 @@ public class JwtValidateFilter extends OncePerRequestFilter {
                     .build()
                     .parseClaimsJws(tokenHeader)
                     .getBody();
+
 
            Authentication userNamePwdToken = new UsernamePasswordAuthenticationToken(claims.get("username").toString(), null, AuthorityUtils.commaSeparatedStringToAuthorityList(claims.get("authorities").toString()));
             SecurityContextHolder.getContext().setAuthentication(userNamePwdToken);

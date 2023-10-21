@@ -1,7 +1,8 @@
-package lk.travel.bookingservice.api;
+package lk.travel.hotelservice.api;
 
-import lk.travel.bookingservice.dto.GuideDTO;
-import lk.travel.bookingservice.service.GuideService;
+
+import lk.travel.hotelservice.dto.GuideDTO;
+import lk.travel.hotelservice.service.GuideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
