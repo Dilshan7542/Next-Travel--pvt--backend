@@ -24,6 +24,7 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
+        userDTO.setPwd(passwordEncoder.encode(userDTO.getPwd()));
         return ResponseEntity.ok(userService.updateUser(userDTO));
     }
 
