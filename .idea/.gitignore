@@ -6,9 +6,9 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-../api-gateway/target
-../booking-service/target
-../customer-service/target
-../hotel-service/target
-../user-service/target
-../vehicle-service/target
+../api-gateway/target/
+../booking-service/target/
+../customer-service/target/
+../hotel-service/target/
+../user-service/target/
+../vehicle-service/target/
