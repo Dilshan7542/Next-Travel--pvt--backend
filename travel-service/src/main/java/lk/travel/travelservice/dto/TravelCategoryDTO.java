@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class TravelCategoryDTO {
     private int travelCategoryID;
-    private String CategoryName;
+    private String categoryName;
     @JsonIgnore
     private List<TravelDTO> travelDTOList;
 }

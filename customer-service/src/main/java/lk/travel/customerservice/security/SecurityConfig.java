@@ -2,6 +2,7 @@ package lk.travel.customerservice.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lk.travel.authservice.filter.CsrfCookieFilter;
+import lk.travel.authservice.filter.JwtGenerateFilter;
 import lk.travel.authservice.filter.JwtValidateFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,7 +45,8 @@ public class SecurityConfig {
         )
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/travel/**").hasAnyRole("ADMIN","MANAGER").anyRequest().authenticated());
+                .addFilterAfter(new JwtGenerateFilter(), BasicAuthenticationFilter.class)
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/customer/**").authenticated());
 
       return   httpSecurity.httpBasic(Customizer.withDefaults()).build();
     }

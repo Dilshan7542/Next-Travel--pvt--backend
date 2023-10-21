@@ -18,8 +18,8 @@ public class TravelCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int travelCategoryID;
     @Column(nullable = false)
-    private String CategoryName;
+    private String categoryName;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "travelCategory")
+    @OneToMany(mappedBy = "travelCategory")
     private List<Travel> travelList;
 }

@@ -29,6 +29,6 @@ public class TravelDTO {
     private int guide;
     private double paidValue;
     private String remark;
-    private TravelCategoryDTO travelCategoryDTO;
+    private TravelCategoryDTO travelCategory;
     private List<TravelLocationDTO> travelLocationList;
 }

@@ -1,10 +1,8 @@
 package lk.travel.customerservice.security;
-import lk.travel.authservice.constant.SecurityConstant;
-import lk.travel.authservice.dto.UserDTO;
+
+import lk.travel.customerservice.dto.CustomerDTO;
+import lk.travel.customerservice.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,9 +12,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,19 +19,17 @@ import java.util.Collection;
 @Component
 @RequiredArgsConstructor
 public class AuthenticationConfig implements AuthenticationProvider {
-    private final RestTemplate restTemplate;
+    private final CustomerService customerService;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        httpHeaders.set(HttpHeaders.AUTHORIZATION, requestAttributes.getRequest().getHeader(HttpHeaders.AUTHORIZATION));
-        UserDTO userDTO = restTemplate.exchange(SecurityConstant.USER_URL + username, HttpMethod.GET, new HttpEntity<>(httpHeaders), UserDTO.class).getBody();
-        if (userDTO != null) {
-            if (passwordEncoder.matches(pwd, userDTO.getPwd())) {
-                return new UsernamePasswordAuthenticationToken(username, pwd, getGenerateAuthorities(userDTO.getRole().name()));
+        CustomerDTO customerDTO = customerService.searchByEmailCustomer(username);
+        if (customerDTO != null) {
+            if (passwordEncoder.matches(pwd, customerDTO.getPwd())) {
+                return new UsernamePasswordAuthenticationToken(username, pwd, getGenerateAuthorities("USER"));
             }
             throw new BadCredentialsException("Invalid Password name");
         } else {
