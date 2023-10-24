@@ -1,20 +1,19 @@
 package lk.travel.vehicleservice.security;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lk.travel.authservice.filter.CsrfCookieFilter;
-import lk.travel.authservice.filter.JwtValidateFilter;
+
+import lk.travel.apigateway.filter.JwtValidateFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -40,7 +39,9 @@ public class SecurityConfig {
             });
         }).sessionManagement(session -> {
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        }).csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()).csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())).addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class).addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class).authorizeHttpRequests(request -> {
+        }).csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
+                .authorizeHttpRequests(request -> {
             request.requestMatchers("/api/v1/vehicle/**").hasAnyRole("MANAGER", "ADMIN").anyRequest().authenticated();
         });
         return httpSecurity.httpBasic(Customizer.withDefaults()).build();

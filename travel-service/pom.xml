@@ -73,8 +73,8 @@
 
         <!--My Dependency-->
         <dependency>
-            <groupId>lk.travel.authservice</groupId>
-            <artifactId>auth-service</artifactId>
+            <groupId>lk.travel.apigateway</groupId>
+            <artifactId>api-gateway</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

@@ -3,19 +3,16 @@ package lk.travel.apigateway.security;
 import jakarta.servlet.http.HttpServletRequest;
 import lk.travel.apigateway.filter.CsrfCookieFilter;
 import lk.travel.apigateway.filter.JwtGenerateFilter;
-import lk.travel.apigateway.filter.JwtValidatorFilter;
+import lk.travel.apigateway.filter.JwtValidateFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
@@ -24,7 +21,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.function.Consumer;
 
 @Configuration
 public class SecurityConfig {
@@ -52,16 +48,14 @@ public class SecurityConfig {
                     });
                 }).sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                }).csrf().disable()
-            //  .addFilterAfter(new CsrfCookieFilter(), ExceptionTranslationFilter.class)
+                }).csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()).csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JwtGenerateFilter(), BasicAuthenticationFilter.class)
-                .addFilterBefore(new JwtValidatorFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> {
                     request
                             .requestMatchers("/api/v1/gateway/customer/register").permitAll()
                             .requestMatchers("/api/v1/gateway/**").authenticated();
-                    //   .requestMatchers("/api/v1/user/register").permitAll();
-
                 });
         httpSecurity.httpBasic(Customizer.withDefaults()).formLogin(Customizer.withDefaults());
 

@@ -1,7 +1,7 @@
 package lk.travel.vehicleservice.security;
 
-import lk.travel.authservice.constant.SecurityConstant;
-import lk.travel.authservice.dto.UserDTO;
+import lk.travel.apigateway.constant.SecurityConstant;
+import lk.travel.apigateway.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

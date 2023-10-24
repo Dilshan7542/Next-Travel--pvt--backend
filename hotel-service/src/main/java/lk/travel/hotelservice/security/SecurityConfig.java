@@ -1,8 +1,7 @@
 package lk.travel.hotelservice.security;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lk.travel.authservice.filter.CsrfCookieFilter;
-import lk.travel.authservice.filter.JwtValidateFilter;
+import lk.travel.apigateway.filter.JwtValidateFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;

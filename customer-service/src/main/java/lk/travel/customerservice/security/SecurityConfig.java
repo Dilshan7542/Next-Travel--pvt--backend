@@ -1,8 +1,8 @@
 package lk.travel.customerservice.security;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lk.travel.customerservice.filter.JwtGenerateFilter;
-import lk.travel.customerservice.filter.JwtValidateFilter;
+import lk.travel.apigateway.filter.JwtValidateFilter;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -37,9 +37,8 @@ public class SecurityConfig {
                 return corsConfiguration;
             }
         })).sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf().disable()
+                .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new JwtGenerateFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/customer/register").permitAll().requestMatchers("/api/v1/customer/**","/api/v1/booking/**").authenticated());
 
       return   httpSecurity.httpBasic(Customizer.withDefaults()).build();

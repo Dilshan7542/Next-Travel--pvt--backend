@@ -76,6 +76,11 @@
         </dependency>
 
      <!--MY DEPENDENCY-->
+        <dependency>
+            <groupId>lk.travel.apigateway</groupId>
+            <artifactId>api-gateway</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
     </dependencies>
 
