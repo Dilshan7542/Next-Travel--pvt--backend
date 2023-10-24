@@ -27,6 +27,7 @@
       <module name="auth-service" options="-parameters" />
       <module name="booking-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />
+      <module name="discovery-server" options="-parameters" />
       <module name="hotel-service" options="-parameters" />
       <module name="travel-service" options="-parameters" />
       <module name="vehicle-service" options="-parameters" />

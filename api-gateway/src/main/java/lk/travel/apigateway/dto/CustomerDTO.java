@@ -1,7 +1,6 @@
-package lk.travel.customerservice.dto;
+package lk.travel.apigateway.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ public class CustomerDTO {
     private String nic;
     private String name;
     private String email;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String pwd;
     private String address;
     private String tel;

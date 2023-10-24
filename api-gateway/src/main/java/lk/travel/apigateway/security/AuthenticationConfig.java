@@ -1,8 +1,8 @@
-package lk.travel.customerservice.security;
+package lk.travel.apigateway.security;
 
-import lk.travel.customerservice.dto.CustomerDTO;
-import lk.travel.customerservice.service.CustomerService;
-import lombok.RequiredArgsConstructor;
+
+import lk.travel.apigateway.dto.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,34 +15,34 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class AuthenticationConfig implements AuthenticationProvider {
-    private final CustomerService customerService;
-    private final PasswordEncoder passwordEncoder;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String username = authentication.getName();
+        String userName = authentication.getName();
         String pwd = authentication.getCredentials().toString();
-        CustomerDTO customerDTO = customerService.searchByEmailCustomer(username);
-        if (customerDTO != null) {
-            if (passwordEncoder.matches(pwd, customerDTO.getPwd())) {
-                return new UsernamePasswordAuthenticationToken(username, pwd, getGenerateAuthorities("USER"));
+        UserDTO userDTO = null;
+        if(userDTO !=null){
+            if(passwordEncoder.matches(pwd,userDTO.getPwd())){
+        System.out.println("Role  :"+userDTO.getRole().name());
+                return new UsernamePasswordAuthenticationToken(userName,pwd,getGrantedAuthority(userDTO.getRole().name()));
+            }else{
+            throw new BadCredentialsException("Invalid Password");
             }
-            throw new BadCredentialsException("Invalid Password name");
-        } else {
-            throw new BadCredentialsException("Invalid User name");
+        }else{
+            throw new BadCredentialsException("Invalid User Name");
         }
     }
-
-    private Collection<? extends GrantedAuthority> getGenerateAuthorities(String name) {
-        ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + name));
-        return grantedAuthorities;
-    }
-
+private Collection <GrantedAuthority> getGrantedAuthority(String role){
+        List<GrantedAuthority> grantedAuthorityList=new ArrayList<>();
+        grantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_"+role));
+        return grantedAuthorityList;
+}
     @Override
     public boolean supports(Class<?> authentication) {
         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));

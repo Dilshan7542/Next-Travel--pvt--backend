@@ -1,7 +1,6 @@
 package lk.travel.customerservice.security;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lk.travel.customerservice.filter.CsrfCookieFilter;
 import lk.travel.customerservice.filter.JwtGenerateFilter;
 import lk.travel.customerservice.filter.JwtValidateFilter;
 import org.springframework.context.annotation.Bean;
@@ -9,13 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -30,7 +28,7 @@ public class SecurityConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration corsConfiguration = new CorsConfiguration();
-                corsConfiguration.setAllowedOrigins(Collections.singletonList("*"));
+                corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
                 corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                 corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
                 corsConfiguration.setAllowCredentials(true);
@@ -39,11 +37,7 @@ public class SecurityConfig {
                 return corsConfiguration;
             }
         })).sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf( csrf-> csrf
-                .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-        )
-                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .csrf().disable()
                 .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JwtGenerateFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/customer/register").permitAll().requestMatchers("/api/v1/customer/**","/api/v1/booking/**").authenticated());

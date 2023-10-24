@@ -4,6 +4,7 @@ import lk.travel.customerservice.dto.BookingDTO;
 import lk.travel.customerservice.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingController {
     private final BookingService bookingService;
-    @PostMapping
-    public ResponseEntity<BookingDTO> saveBooking(@RequestBody BookingDTO bookingDTO) {
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity saveBooking(@RequestBody BookingDTO bookingDTO) {
         return new ResponseEntity(bookingService.saveBooking(bookingDTO), HttpStatus.OK);
     }
 

@@ -4,6 +4,7 @@ import lk.travel.customerservice.dto.CustomerDTO;
 import lk.travel.customerservice.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +23,14 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.saveCustomer(customerDTO), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO) {
         customerDTO.setPwd(passwordEncoder.encode(customerDTO.getPwd()));
         return new ResponseEntity<>(customerService.updateCustomer(customerDTO), HttpStatus.OK);
     }
 
-    @GetMapping(path = "search", params = "customerID")
-    public ResponseEntity<CustomerDTO> searchCustomer(@RequestParam int customerID) {
+    @GetMapping(path = "search/{customerID}")
+    public ResponseEntity<CustomerDTO> searchCustomer(@PathVariable("customerID") int customerID) {
         return new ResponseEntity<>(customerService.searchCustomer(customerID), HttpStatus.OK);
     }
     @GetMapping(path = "search/email", params = "email")
@@ -37,8 +38,8 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.searchByEmailCustomer(email), HttpStatus.OK);
     }
 
-    @DeleteMapping(params = "customerID")
-    public ResponseEntity<CustomerDTO> deleteCustomer(@RequestParam int customerID) {
+    @DeleteMapping(path = "{customerID}")
+    public ResponseEntity<CustomerDTO> deleteCustomer(@PathVariable("customerID") int customerID) {
         customerService.deleteCustomer(customerID);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

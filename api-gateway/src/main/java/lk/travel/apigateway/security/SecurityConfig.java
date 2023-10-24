@@ -1,11 +1,13 @@
-package lk.travel.hotelservice.security;
+package lk.travel.apigateway.security;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lk.travel.authservice.filter.CsrfCookieFilter;
-import lk.travel.authservice.filter.JwtValidateFilter;
+import lk.travel.apigateway.filter.CsrfCookieFilter;
+import lk.travel.apigateway.filter.JwtGenerateFilter;
+import lk.travel.apigateway.filter.JwtValidatorFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -13,47 +15,62 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.function.Consumer;
 
 @Configuration
 public class SecurityConfig {
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors(cors -> {
-                    cors.configurationSource(new CorsConfigurationSource() {
+        CookieCsrfTokenRepository cookieCsrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+
+
+        httpSecurity.cors(httpCors -> {
+                    httpCors.configurationSource(new CorsConfigurationSource() {
                         @Override
                         public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
                             CorsConfiguration corsConfiguration = new CorsConfiguration();
-                            corsConfiguration.setAllowedOrigins(Collections.singletonList("*"));
+                            corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:63342"));
                             corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                             corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
-                            corsConfiguration.setExposedHeaders(Collections.singletonList(HttpHeaders.AUTHORIZATION));
                             corsConfiguration.setAllowCredentials(true);
-                            corsConfiguration.setMaxAge(5000L);
+                            corsConfiguration.setExposedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION));
+                            corsConfiguration.setMaxAge(3600L);
                             return corsConfiguration;
+
                         }
                     });
-                })
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
-            //    .addFilterAfter(new CsrfCookieFilter(),BasicAuthenticationFilter.class)
-                .authorizeHttpRequests( auth-> auth
-                        .requestMatchers("/api/v1/hotel/**").hasAnyRole("ADMIN","MANAGER").anyRequest().authenticated()
+                }).sessionManagement(session -> {
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                }).csrf().disable()
+            //  .addFilterAfter(new CsrfCookieFilter(), ExceptionTranslationFilter.class)
+                .addFilterAfter(new JwtGenerateFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtValidatorFilter(), BasicAuthenticationFilter.class)
+                .authorizeHttpRequests(request -> {
+                    request
+                            .requestMatchers("/api/v1/gateway/customer/register").permitAll()
+                            .requestMatchers("/api/v1/gateway/**").authenticated();
+                    //   .requestMatchers("/api/v1/user/register").permitAll();
 
-                );
+                });
+        httpSecurity.httpBasic(Customizer.withDefaults()).formLogin(Customizer.withDefaults());
 
-
-        return httpSecurity.httpBasic(Customizer.withDefaults()).build();
+        return httpSecurity.build();
     }
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
