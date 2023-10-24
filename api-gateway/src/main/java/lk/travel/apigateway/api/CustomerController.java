@@ -1,14 +1,13 @@
 package lk.travel.apigateway.api;
 
+import lk.travel.apigateway.constant.SecurityConstant;
 import lk.travel.apigateway.dto.CustomerDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -17,7 +16,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    private final String URL = "http://localhost:8082/api/v1/customer";
+    private final String URL = SecurityConstant.URL +":8082/api/v1/customer";
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<CustomerDTO> saveCustomer(@RequestHeader MultiValueMap<String, String> headers, @RequestBody CustomerDTO customerDTO) {

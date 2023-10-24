@@ -1,5 +1,6 @@
 package lk.travel.apigateway.api;
 
+import lk.travel.apigateway.constant.SecurityConstant;
 import lk.travel.apigateway.dto.VehicleBrandDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("api/v1/gateway/vehicle/brand")
 @RequiredArgsConstructor
 public class VehicleBrandController {
-    private final String URL = "http://localhost:8081/api/v1/vehicle/brand";
+    private final String URL = SecurityConstant.URL+"8085/api/v1/vehicle/brand";
     @PostMapping
     public Mono<VehicleBrandDTO> saveVehicleBrand(@RequestHeader MultiValueMap<String, String> headers, @RequestBody VehicleBrandDTO vehicleBrandDTO) {
         return WebClient.create(URL).post().body(Mono.just(vehicleBrandDTO), VehicleBrandDTO.class).headers(h -> h.addAll(headers)).retrieve().bodyToMono(VehicleBrandDTO.class);

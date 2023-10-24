@@ -1,5 +1,6 @@
 package lk.travel.apigateway.api;
 
+import lk.travel.apigateway.constant.SecurityConstant;
 import lk.travel.apigateway.dto.GuideDTO;
 import lk.travel.apigateway.dto.GuideDTO;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.function.Consumer;
 public class GuideController {
 
    final private RestTemplate restTemplate;
-    private final String URL = "http://localhost:8082/api/v1/guide";
+    private final String URL = SecurityConstant.URL+"8083/api/v1/guide";
     @PostMapping
     public ResponseEntity<GuideDTO> saveGuide(@RequestHeader  MultiValueMap<String ,String> header, @RequestBody GuideDTO guideDTO) {
 

@@ -1,5 +1,6 @@
 package lk.travel.apigateway.api;
 
+import lk.travel.apigateway.constant.SecurityConstant;
 import lk.travel.apigateway.dto.BookingDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class BookingController {
     private final RestTemplate restTemplate;
-    private final String URL = "http://localhost:8082/api/v1/booking";
+    private final String URL = SecurityConstant.URL+ ":8082/api/v1/booking";
 
     @PostMapping
     public ResponseEntity<BookingDTO> saveBooking(@RequestHeader MultiValueMap<String, String> headers,@RequestBody BookingDTO bookingDTO) {

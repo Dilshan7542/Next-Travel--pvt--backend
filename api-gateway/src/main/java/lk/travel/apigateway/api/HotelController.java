@@ -1,5 +1,6 @@
 package lk.travel.apigateway.api;
 
+import lk.travel.apigateway.constant.SecurityConstant;
 import lk.travel.apigateway.dto.HotelDTO;
 import lk.travel.apigateway.dto.TravelDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("api/v1/gateway/hotel")
 @RequiredArgsConstructor
 public class HotelController {
-    private final String URL = "http://localhost:8084/api/v1/hotel";
+    private final String URL = SecurityConstant.URL+"8083/api/v1/hotel";
     @PostMapping
     public Mono<HotelDTO> saveHotel(@RequestHeader MultiValueMap<String, String> headers, @RequestBody HotelDTO hotelDTO) {
         return WebClient.create(URL).post().body(Mono.just(hotelDTO), HotelDTO.class).headers(h -> h.addAll(headers)).retrieve().bodyToMono(HotelDTO.class);

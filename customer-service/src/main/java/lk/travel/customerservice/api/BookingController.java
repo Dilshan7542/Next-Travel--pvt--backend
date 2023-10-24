@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingController {
     private final BookingService bookingService;
+
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity saveBooking(@RequestBody BookingDTO bookingDTO) {
         return new ResponseEntity(bookingService.saveBooking(bookingDTO), HttpStatus.OK);

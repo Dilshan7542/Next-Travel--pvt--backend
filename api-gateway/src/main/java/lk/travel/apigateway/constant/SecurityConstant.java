@@ -5,4 +5,5 @@ public interface SecurityConstant {
  String JWT_SECRET_KEY_CUSTOMER="086e291c6b4e1c890d6812f6f73d7ba83125196b814d5222aa6aaf635aa0e5c9";
  String USER_URL="http://localhost:8084/api/v1/user/search/email?email=";
  String CUSTOMER_URL="http://localhost:8083/api/v1/customer/search/email?email=";
+ String URL="http://desktop-m37ask3.lan";
 }
