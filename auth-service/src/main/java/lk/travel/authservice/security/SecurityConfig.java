@@ -2,13 +2,13 @@ package lk.travel.authservice.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lk.travel.authservice.filter.CsrfCookieFilter;
-import lk.travel.authservice.filter.JwtGenerateFilter;
 import lk.travel.authservice.filter.JwtValidateFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +33,7 @@ public class SecurityConfig {
                         @Override
                         public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                             CorsConfiguration corsConfiguration = new CorsConfiguration();
-                            corsConfiguration.setAllowedOrigins(Collections.singletonList("*"));
+                            corsConfiguration.setAllowedOrigins(Collections.singletonList("http://desktop-m37ask3.lan:8080"));
                             corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                             corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
                             corsConfiguration.setAllowCredentials(true);
@@ -45,14 +45,7 @@ public class SecurityConfig {
                     });
                 }).sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                }).csrf(csrf -> {
-                    csrf
-                            .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-                            //  .ignoringRequestMatchers("/api/v1/user/register")
-                            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-                })
-                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new JwtGenerateFilter(), BasicAuthenticationFilter.class)
+                }).csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> {
                     request

@@ -33,7 +33,7 @@ public class CustomerController {
     public ResponseEntity<CustomerDTO> searchCustomer(@PathVariable("customerID") int customerID) {
         return new ResponseEntity<>(customerService.searchCustomer(customerID), HttpStatus.OK);
     }
-    @GetMapping(path = "search/email", params = "email")
+    @GetMapping(path = "search/email")
     public ResponseEntity<CustomerDTO> searchEmailCustomer(@RequestParam String email) {
         return new ResponseEntity<>(customerService.searchByEmailCustomer(email), HttpStatus.OK);
     }

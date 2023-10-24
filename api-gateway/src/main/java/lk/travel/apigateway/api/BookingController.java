@@ -18,7 +18,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class BookingController {
     private final RestTemplate restTemplate;
-    private final String URL = SecurityConstant.URL+ ":8082/api/v1/booking";
+    private final String URL = SecurityConstant.URL+ "8082/api/v1/booking";
 
     @PostMapping
     public ResponseEntity<BookingDTO> saveBooking(@RequestHeader MultiValueMap<String, String> headers,@RequestBody BookingDTO bookingDTO) {

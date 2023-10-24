@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    private final String URL = SecurityConstant.URL +":8082/api/v1/customer";
+    private final String URL = SecurityConstant.URL +"8082/api/v1/customer";
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<CustomerDTO> saveCustomer(@RequestHeader MultiValueMap<String, String> headers, @RequestBody CustomerDTO customerDTO) {

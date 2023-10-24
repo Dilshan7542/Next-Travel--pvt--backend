@@ -16,7 +16,6 @@ public class CustomerDTO {
     private String nic;
     private String name;
     private String email;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String pwd;
     private String address;
     private String tel;

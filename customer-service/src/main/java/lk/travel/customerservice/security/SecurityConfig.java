@@ -28,7 +28,7 @@ public class SecurityConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration corsConfiguration = new CorsConfiguration();
-                corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+                corsConfiguration.setAllowedOrigins(Arrays.asList("http://desktop-m37ask3.lan:8080"));
                 corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                 corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
                 corsConfiguration.setAllowCredentials(true);

@@ -26,10 +26,17 @@ public class JwtGenerateFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication !=null){
-
-            SecretKey secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_USER.getBytes(StandardCharsets.UTF_8));
+            String issuer="";
+            SecretKey secretKey=null;
+            if (request.getServletPath().startsWith("/api/v1/gateway/customer")) {
+            secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_CUSTOMER.getBytes(StandardCharsets.UTF_8));
+            issuer="CUSTOMER";
+            }else{
+            secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_USER.getBytes(StandardCharsets.UTF_8));
+            issuer="USER";
+            }
             String newToken = Jwts.builder()
-                    .setIssuer("DILSHAN")
+                    .setIssuer(issuer)
                     .setSubject("Next-Travel")
                     .claim("username", authentication.getName())
                     .claim("authorities", populateGrantedAuthorities(authentication.getAuthorities()))
