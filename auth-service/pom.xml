@@ -72,7 +72,12 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <version>4.0.3</version>
         </dependency>
-
+        <!--MY DEPENDENCY-->
+        <dependency>
+            <groupId>lk.travel.apigateway</groupId>
+            <artifactId>api-gateway</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
 
