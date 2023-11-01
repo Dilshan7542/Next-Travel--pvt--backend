@@ -31,7 +31,7 @@ public class SecurityConfig {
                         @Override
                         public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                             CorsConfiguration corsConfiguration = new CorsConfiguration();
-                            corsConfiguration.setAllowedOrigins(Collections.singletonList("http://desktop-m37ask3.lan:8080"));
+                            corsConfiguration.setAllowedOrigins(Arrays.asList("http://desktop-m37ask3.lan:8080","http://localhost:63342"));
                             corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                             corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
                             corsConfiguration.setAllowCredentials(true);
@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> {
                     request
-                            .requestMatchers("/api/v1/user/**").hasAnyRole("ADMIN", "MANAGER")
+                            .requestMatchers("/api/v1/user/**").hasRole("MANAGER")
                             .requestMatchers("/api/v1/guide/**").authenticated();
                     //   .requestMatchers("/api/v1/user/register").permitAll();
 

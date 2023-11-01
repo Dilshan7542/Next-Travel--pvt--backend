@@ -1,6 +1,8 @@
 package lk.travel.vehicleservice.service.impl;
 
+import jakarta.persistence.EntityManager;
 import lk.travel.vehicleservice.dto.VehicleBrandDTO;
+import lk.travel.vehicleservice.dto.VehicleCategoryDTO;
 import lk.travel.vehicleservice.entity.VehicleBrand;
 import lk.travel.vehicleservice.repo.VehicleBrandRepo;
 import lk.travel.vehicleservice.service.VehicleBrandService;
@@ -18,6 +20,7 @@ import java.util.List;
 public class VehicleBrandServiceImpl implements VehicleBrandService {
     private final VehicleBrandRepo vehicleBrandRepo;
     private final ModelMapper mapper;
+    private final EntityManager entityManager;
 
     @Override
     public VehicleBrandDTO saveVehicleBrand(VehicleBrandDTO vehicleBrandDTO) {
@@ -55,7 +58,17 @@ public class VehicleBrandServiceImpl implements VehicleBrandService {
 
     @Override
     public List<VehicleBrandDTO> getAllVehicleBrand() {
-        return mapper.map(vehicleBrandRepo.findAll(), new TypeToken<List<VehicleBrandDTO>>() {
-        }.getType());
+        return mapper.map(vehicleBrandRepo.findAll(), new TypeToken<List<VehicleBrandDTO>>() {}.getType());
     }
+
+    @Override
+    public List<VehicleBrandDTO> getAllVehicleCategoryWithOutImage() {
+        List<VehicleBrand> all = vehicleBrandRepo.findAll();
+        for (VehicleBrand vehicleBrand : all) {
+            entityManager.detach(vehicleBrand);
+            vehicleBrand.setImage(null);
+        }
+        return mapper.map(all, new TypeToken<List<VehicleBrandDTO>>() {}.getType());
+    }
+
 }

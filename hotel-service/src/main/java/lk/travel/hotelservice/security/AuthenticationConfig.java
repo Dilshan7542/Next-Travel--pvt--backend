@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,9 +34,10 @@ public class AuthenticationConfig implements AuthenticationProvider {
         String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
         HttpHeaders httpHeaders = new HttpHeaders();
+        System.out.println(username);
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         httpHeaders.set(HttpHeaders.AUTHORIZATION,requestAttributes.getRequest().getHeader(HttpHeaders.AUTHORIZATION));
-        UserDTO userDTO = restTemplate.exchange(SecurityConstant.USER_URL + username, HttpMethod.GET, new HttpEntity<>(httpHeaders), UserDTO.class).getBody();
+        UserDTO userDTO = restTemplate.exchange(SecurityConstant.USER_URL +"/api/v1/user/search/email?email="+ username, HttpMethod.GET, new HttpEntity<>(httpHeaders), UserDTO.class).getBody();
         if(userDTO !=null){
             if(passwordEncoder.matches(pwd,userDTO.getPwd())){
                 return new UsernamePasswordAuthenticationToken(username,pwd,getGrantedAuthorities(userDTO.getRole().name()));

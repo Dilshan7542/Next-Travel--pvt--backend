@@ -1,5 +1,6 @@
 package lk.travel.vehicleservice.service.impl;
 
+import jakarta.persistence.EntityManager;
 import lk.travel.vehicleservice.dto.VehicleCategoryDTO;
 import lk.travel.vehicleservice.entity.VehicleCategory;
 import lk.travel.vehicleservice.repo.VehicleCategoryRepo;
@@ -18,6 +19,7 @@ import java.util.List;
 public class VehicleCategoryServiceImpl implements VehicleCategoryService {
    private final VehicleCategoryRepo vehicleCategoryRepo;
    private final ModelMapper mapper;
+
     @Override
     public VehicleCategoryDTO saveVehicleCategory(VehicleCategoryDTO vehicleCategoryDTO) {
             if(vehicleCategoryRepo.existsById(vehicleCategoryDTO.getVehicleCategoryID())){
@@ -56,4 +58,6 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
     public List<VehicleCategoryDTO> getAllVehicleCategory() {
         return mapper.map(vehicleCategoryRepo.findAll(),new TypeToken<List<VehicleCategoryDTO>>(){}.getType());
     }
+
+
 }

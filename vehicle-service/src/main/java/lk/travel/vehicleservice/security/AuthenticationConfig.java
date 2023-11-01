@@ -35,7 +35,7 @@ public class AuthenticationConfig implements AuthenticationProvider {
         HttpHeaders httpHeaders = new HttpHeaders();
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes(); // get Basic auth Header
         httpHeaders.set(HttpHeaders.AUTHORIZATION, requestAttributes.getRequest().getHeader(HttpHeaders.AUTHORIZATION));
-        UserDTO userDTO = restTemplate.exchange(SecurityConstant.USER_URL + username, HttpMethod.GET, new HttpEntity<>(httpHeaders), UserDTO.class).getBody();
+        UserDTO userDTO = restTemplate.exchange(SecurityConstant.USER_URL +"/api/v1/user/search/email?email="+ username, HttpMethod.GET, new HttpEntity<>(httpHeaders), UserDTO.class).getBody();
         if (userDTO != null) {
             if (passwordEncoder.matches(pwd, userDTO.getPwd())) {
                 return new UsernamePasswordAuthenticationToken(username, pwd, getGenerateAuthorities(userDTO.getRole().name()));

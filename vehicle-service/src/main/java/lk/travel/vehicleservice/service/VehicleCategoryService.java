@@ -11,4 +11,5 @@ public interface VehicleCategoryService {
     VehicleCategoryDTO searchVehicleCategory(int vehicleCategoryID);
     void deleteVehicleCategory(int vehicleCategoryID);
     List<VehicleCategoryDTO> getAllVehicleCategory();
+
 }

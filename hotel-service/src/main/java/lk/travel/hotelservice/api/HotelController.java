@@ -38,14 +38,19 @@ public class HotelController {
         return new ResponseEntity(hotelService.searchHotel(hotelID), HttpStatus.OK);
     }
 
-    @DeleteMapping(params = "hotelID")
-    public ResponseEntity<HotelDTO> deleteHotel(@RequestParam int hotelID) {
-        return new ResponseEntity(hotelService.searchHotel(hotelID), HttpStatus.OK);
+    @DeleteMapping(path = "{hotelID}")
+    public ResponseEntity<HotelDTO> deleteHotel(@PathVariable("hotelID") int hotelID) {
+        hotelService.deleteHotel(hotelID);
+        return new ResponseEntity(null, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<HotelDTO>> getAllHotel() {
-        return new ResponseEntity(hotelService.getAllHotel(), HttpStatus.OK);
+        return ResponseEntity.ok(hotelService.getAllHotel());
+    }
+    @GetMapping(path = "!image")
+    public ResponseEntity<List<HotelDTO>> getAllHotelWithOutImage() {
+        return ResponseEntity.ok(hotelService.getAllHotelWithOutImage());
     }
 
 }

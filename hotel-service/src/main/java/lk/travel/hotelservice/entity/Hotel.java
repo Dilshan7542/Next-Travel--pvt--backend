@@ -3,10 +3,7 @@ package lk.travel.hotelservice.entity;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.Super;
 
@@ -18,6 +15,7 @@ import java.util.List;
 @Setter
 @Entity
 @DynamicUpdate
+@ToString
 public class Hotel implements SuperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +24,8 @@ public class Hotel implements SuperEntity {
    private String name;
     @Column(nullable = false)
    private String email;
-    @Column(nullable = false)
    private String location;
-    @Column(nullable = false)
    private String map;
-    @Column(nullable = false)
    private String tel;
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")

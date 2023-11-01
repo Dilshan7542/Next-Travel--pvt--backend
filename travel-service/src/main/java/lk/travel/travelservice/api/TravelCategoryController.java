@@ -22,12 +22,12 @@ public class TravelCategoryController {
     public ResponseEntity<TravelCategoryDTO> updateTravelCategory(@RequestBody TravelCategoryDTO travelCategoryDTO){
         return new ResponseEntity<>(travelCategoryService.updateTravelCategory(travelCategoryDTO), HttpStatus.OK);
     }
-    @GetMapping(path = "search",params = "travelCategoryID")
-    public ResponseEntity<TravelCategoryDTO> searchTravelCategory(@RequestParam int travelCategoryID){
+    @GetMapping(path = "search/{travelCategoryID}")
+    public ResponseEntity<TravelCategoryDTO> searchTravelCategory(@PathVariable int travelCategoryID){
         return new ResponseEntity<>(travelCategoryService.searchTravelCategory(travelCategoryID), HttpStatus.OK);
     }
-    @DeleteMapping(params = "travelCategoryID")
-    public ResponseEntity<TravelCategoryDTO> deleteTravelCategory(@RequestParam int travelCategoryID){
+    @DeleteMapping(path = "{travelCategoryID}")
+    public ResponseEntity<TravelCategoryDTO> deleteTravelCategory(@PathVariable int travelCategoryID){
         travelCategoryService.deleteTravelCategory(travelCategoryID);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

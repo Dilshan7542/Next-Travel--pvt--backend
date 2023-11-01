@@ -3,8 +3,11 @@ package lk.travel.authservice.api;
 import lk.travel.authservice.dto.UserDTO;
 import lk.travel.authservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +33,9 @@ public class UserController {
 
     @GetMapping(path = "search/email", params = "email")
     public ResponseEntity<UserDTO> searchByEmailUser(@RequestParam String email) {
-        return ResponseEntity.ok(userService.searchByEmailUser(email));
+        UserDTO userDTO = userService.searchByEmailUser(email);
+        System.out.println("email : "+userDTO.getName());
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @GetMapping("search")

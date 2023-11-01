@@ -1,4 +1,4 @@
-package lk.travel.apigateway.filter;
+package lk.travel.customerservice.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -19,19 +19,16 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public class JwtValidateFilter extends OncePerRequestFilter {
+public class JwtCustomerValidateFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-
+        System.out.println(header);
         if(header !=null && !header.startsWith("Basic")) {
             header = header.startsWith("Bearer ") ? header.substring(7) : header;
-            SecretKey secretKey = null;
-            if (request.getServletPath().startsWith("/api/v1/gateway/customer") || request.getServletPath().startsWith("/api/v1/gateway/booking")) {
-                secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_CUSTOMER.getBytes(StandardCharsets.UTF_8));
-            } else {
-                secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_USER.getBytes(StandardCharsets.UTF_8));
-            }
+
+            SecretKey  secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_CUSTOMER.getBytes(StandardCharsets.UTF_8));
+
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
@@ -40,6 +37,7 @@ public class JwtValidateFilter extends OncePerRequestFilter {
             Authentication usernameAuthToken = new UsernamePasswordAuthenticationToken(claims.get("username").toString(), null, AuthorityUtils.commaSeparatedStringToAuthorityList(claims.get("authorities").toString()));
             SecurityContextHolder.getContext().setAuthentication(usernameAuthToken);
         }
+            response.setHeader(HttpHeaders.AUTHORIZATION,header);
         filterChain.doFilter(request,response);
 
     }

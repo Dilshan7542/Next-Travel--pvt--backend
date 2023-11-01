@@ -10,6 +10,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.reactive.function.client.WebClient;
+
 import java.util.Arrays;
 
 
@@ -18,12 +20,15 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class BookingController {
     private final RestTemplate restTemplate;
+    private final WebClient.Builder webclient;
     private final String URL = SecurityConstant.URL+ "8082/api/v1/booking";
 
     @PostMapping
-    public ResponseEntity<BookingDTO> saveBooking(@RequestHeader MultiValueMap<String, String> headers,@RequestBody BookingDTO bookingDTO) {
+    public ResponseEntity<BookingDTO> saveBooking(@RequestHeader(HttpHeaders.AUTHORIZATION) String auth,@RequestBody BookingDTO bookingDTO) {
+                        MultiValueMap<String,String> value=new HttpHeaders();
+                        value.set(HttpHeaders.AUTHORIZATION,auth);
         try {
-        return restTemplate.exchange(URL, HttpMethod.POST, new HttpEntity<>(bookingDTO,headers), BookingDTO.class);
+        return restTemplate.exchange(URL, HttpMethod.POST, new HttpEntity<>(bookingDTO,value), BookingDTO.class);
 
         }catch (Exception e){
             throw new RuntimeException("Booking Already Exists..!");
@@ -31,16 +36,18 @@ public class BookingController {
     }
 
     @PutMapping
-    public ResponseEntity<BookingDTO> updateBooking(@RequestHeader MultiValueMap<String, String> headers,@RequestBody BookingDTO bookingDTO) {
+    public ResponseEntity<BookingDTO> updateBooking(@RequestHeader(HttpHeaders.AUTHORIZATION) String auth,@RequestBody BookingDTO bookingDTO) {
+        MultiValueMap<String,String> value=new HttpHeaders();
+        value.set(HttpHeaders.AUTHORIZATION,auth);
         try {
-        return restTemplate.exchange(URL, HttpMethod.PUT, new HttpEntity<>(bookingDTO,headers), BookingDTO.class);
+        return restTemplate.exchange(URL, HttpMethod.PUT, new HttpEntity<>(bookingDTO,value), BookingDTO.class);
         }catch (Exception e){
             throw new RuntimeException("Booking Already Exists..!");
 
         }
     }
     @GetMapping(path = "search", params = "bookingID")
-    public ResponseEntity<BookingDTO> searchBooking(@RequestHeader MultiValueMap<String, String> headers,@RequestParam int bookingID){
+    public ResponseEntity<BookingDTO> searchBooking(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers,@RequestParam int bookingID){
 
         try {
         return new ResponseEntity( restTemplate.exchange(URL + "/search?bookingID=" + bookingID, HttpMethod.GET, new HttpEntity<>(headers), BookingDTO.class),HttpStatus.OK);
@@ -51,7 +58,7 @@ public class BookingController {
 
     }
     @GetMapping(path = "search/customer", params = "customerID")
-    public ResponseEntity<BookingDTO> searchBookingCustomerID(@RequestHeader MultiValueMap<String, String> headers,@RequestParam int customerID) {
+    public ResponseEntity<BookingDTO> searchBookingCustomerID(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers,@RequestParam int customerID) {
         try {
 
         return restTemplate.exchange(URL+"/search/customer?customerID="+customerID, HttpMethod.GET, new HttpEntity<>(headers), BookingDTO.class);
@@ -62,7 +69,7 @@ public class BookingController {
 
 
     @DeleteMapping(params = "bookingID")
-    public ResponseEntity<BookingDTO> deleteBooking(@RequestHeader MultiValueMap<String, String> headers,@RequestParam int bookingID) {
+    public ResponseEntity<BookingDTO> deleteBooking(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers,@RequestParam int bookingID) {
         try {
         return restTemplate.exchange(URL+"?bookingID="+bookingID, HttpMethod.DELETE, new HttpEntity<>(headers), BookingDTO.class);
     }catch (Exception e){
@@ -71,7 +78,7 @@ public class BookingController {
     }
 
     @GetMapping
-    public ResponseEntity getAllBooking(@RequestHeader MultiValueMap<String, String> headers) {
+    public ResponseEntity getAllBooking(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
 
         ResponseEntity<BookingDTO[]> exchange = restTemplate.exchange(URL, HttpMethod.GET, new HttpEntity<>(headers), BookingDTO[].class);
         return new ResponseEntity<>(Arrays.asList(exchange),HttpStatus.OK);

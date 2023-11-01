@@ -30,7 +30,6 @@ public class AuthenticationConfig implements AuthenticationProvider {
         UserDTO userDTO = userService.searchByEmailUser(userName);
         if(userDTO !=null){
             if(passwordEncoder.matches(pwd,userDTO.getPwd())){
-        System.out.println("Role  :"+userDTO.getRole().name());
                 return new UsernamePasswordAuthenticationToken(userName,pwd,getGrantedAuthority(userDTO.getRole().name()));
             }else{
             throw new BadCredentialsException("Invalid Password");

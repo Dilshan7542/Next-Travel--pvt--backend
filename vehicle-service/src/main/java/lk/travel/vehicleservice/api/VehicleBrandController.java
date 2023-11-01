@@ -43,13 +43,13 @@ public class VehicleBrandController {
     }
 
 
-    @GetMapping(path = "search", params = "vehicleBrandID")
-    public ResponseEntity<VehicleBrandDTO> searchVehicleBrand(@RequestParam int vehicleBrandID) {
+    @GetMapping(path = "search/{vehicleBrandID}")
+    public ResponseEntity<VehicleBrandDTO> searchVehicleBrand(@PathVariable int vehicleBrandID) {
         return new ResponseEntity<>(vehicleBrandService.searchVehicleBrand(vehicleBrandID), HttpStatus.OK);
     }
 
-    @DeleteMapping(params = "vehicleBrandID")
-    public ResponseEntity<VehicleBrandDTO> deleteVehicleBrand(@RequestParam int vehicleBrandID) {
+    @DeleteMapping(path = "{vehicleBrandID}")
+    public ResponseEntity<VehicleBrandDTO> deleteVehicleBrand(@PathVariable int vehicleBrandID) {
         vehicleBrandService.deleteVehicleBrand(vehicleBrandID);
         return new ResponseEntity(null, HttpStatus.OK);
     }
@@ -57,5 +57,9 @@ public class VehicleBrandController {
     @GetMapping
     public ResponseEntity<List<VehicleBrandDTO>> getAllVehicleBrand() {
         return new ResponseEntity<>(vehicleBrandService.getAllVehicleBrand(), HttpStatus.OK);
+    }
+    @GetMapping(path = "!image")
+    public ResponseEntity<List<VehicleBrandDTO>> getAllVehicleBrandWithOutImage() {
+        return new ResponseEntity<>(vehicleBrandService.getAllVehicleCategoryWithOutImage(), HttpStatus.OK);
     }
 }

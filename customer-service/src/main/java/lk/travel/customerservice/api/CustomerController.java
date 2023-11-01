@@ -19,6 +19,7 @@ public class CustomerController {
    private final PasswordEncoder passwordEncoder;
     @PostMapping("/register")
     public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody CustomerDTO customerDTO) {
+        System.out.println("Custoemr Name : "+customerDTO.getName());
         customerDTO.setPwd(passwordEncoder.encode(customerDTO.getPwd()));
         return new ResponseEntity<>(customerService.saveCustomer(customerDTO), HttpStatus.OK);
     }

@@ -27,13 +27,13 @@ public class VehicleCategoryController {
     }
 
 
-    @GetMapping(path = "search", params = "vehicleCategoryID")
-    public ResponseEntity<VehicleCategoryDTO> searchVehicleCategory(@RequestParam int vehicleCategoryID) {
+    @GetMapping(path = "search/{vehicleCategoryID}")
+    public ResponseEntity<VehicleCategoryDTO> searchVehicleCategory(@PathVariable int vehicleCategoryID) {
         return new ResponseEntity<>(vehicleCategoryService.searchVehicleCategory(vehicleCategoryID), HttpStatus.OK);
     }
 
-    @DeleteMapping(params = "vehicleCategoryID")
-    public ResponseEntity<VehicleCategoryDTO> deleteVehicleCategory(@RequestParam int vehicleCategoryID) {
+    @DeleteMapping(path = "{vehicleCategoryID}")
+    public ResponseEntity<VehicleCategoryDTO> deleteVehicleCategory(@PathVariable int vehicleCategoryID) {
         vehicleCategoryService.deleteVehicleCategory(vehicleCategoryID);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

@@ -25,13 +25,13 @@ public class TravelAreaController {
         return new ResponseEntity<>(travelAreaService.updateTravelArea(travelAreaDTO), HttpStatus.OK);
     }
 
-    @GetMapping(path = "search", params = "travelAreaID")
-    public ResponseEntity<TravelAreaDTO> searchTravelCategory(@RequestParam int travelAreaID) {
+    @GetMapping(path = "search/{travelAreaID}")
+    public ResponseEntity<TravelAreaDTO> searchTravelCategory(@PathVariable int travelAreaID) {
         return new ResponseEntity<>(travelAreaService.searchTravelArea(travelAreaID), HttpStatus.OK);
     }
 
-    @DeleteMapping(params = "travelAreaID")
-    public ResponseEntity<TravelAreaDTO> deleteTravelCategory(@RequestParam int travelAreaID) {
+    @DeleteMapping(path = "{travelAreaID}")
+    public ResponseEntity<TravelAreaDTO> deleteTravelCategory(@PathVariable int travelAreaID) {
         travelAreaService.deleteTravelArea(travelAreaID);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

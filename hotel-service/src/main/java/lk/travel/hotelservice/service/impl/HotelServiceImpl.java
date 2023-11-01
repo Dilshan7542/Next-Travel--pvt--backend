@@ -1,5 +1,6 @@
 package lk.travel.hotelservice.service.impl;
 
+import jakarta.persistence.EntityManager;
 import lk.travel.hotelservice.dto.HotelDTO;
 import lk.travel.hotelservice.entity.Hotel;
 import lk.travel.hotelservice.repo.HotelRepo;
@@ -18,6 +19,7 @@ import java.util.List;
 public class HotelServiceImpl implements HotelService {
 private final HotelRepo hotelRepo;
 private final ModelMapper mapper;
+private final EntityManager entityManager;
     @Override
     public HotelDTO saveHotel(HotelDTO hotelDTO) {
         if(hotelRepo.existsById(hotelDTO.getHotelID())){
@@ -55,5 +57,15 @@ private final ModelMapper mapper;
     @Override
     public List<HotelDTO> getAllHotel() {
         return mapper.map(hotelRepo.findAll(),new TypeToken<List<HotelDTO>>(){}.getType());
+    }
+
+    @Override
+    public List<HotelDTO> getAllHotelWithOutImage() {
+        List<Hotel> list = hotelRepo.findAll();
+        for (Hotel hotel : list) {
+            entityManager.detach(hotel);
+            hotel.setImage(null);
+        }
+         return mapper.map(list,new TypeToken<List<HotelDTO>>(){}.getType());
     }
 }

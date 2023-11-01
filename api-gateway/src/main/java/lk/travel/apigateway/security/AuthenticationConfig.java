@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,13 +32,13 @@ public class AuthenticationConfig implements AuthenticationProvider {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-    @Autowired
-    RestTemplate restTemplate;
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String userName = authentication.getName();
         String pwd = authentication.getCredentials().toString();
+
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpHeaders httpHeaders = new HttpHeaders();
         HttpServletRequest request = requestAttributes.getRequest();
@@ -45,16 +46,18 @@ public class AuthenticationConfig implements AuthenticationProvider {
         String userEmail = null;
         String hashPwd = "";
         String role = "";
-        System.out.println(requestAttributes.getRequest().getServletPath());
         if (request.getServletPath().startsWith("/api/v1/gateway/customer")|| (request.getServletPath().startsWith("/api/v1/gateway/booking"))) {
-            CustomerDTO customerDTO = restTemplate.exchange(SecurityConstant.URL +
-                    "8082/api/v1/customer/search/email?email=" + userName, HttpMethod.GET, new HttpEntity<>(httpHeaders), CustomerDTO.class).getBody();
+
+            CustomerDTO customerDTO = WebClient.create(SecurityConstant.URL +
+                    "8082/api/v1/customer/search/email?email=" + userName).get().
+                    headers(h -> h.add(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION))).retrieve().bodyToMono(CustomerDTO.class).block();
             hashPwd = customerDTO.getPwd();
             userEmail = customerDTO.getEmail();
             role = "USER";
         } else {
-            UserDTO userDTO = restTemplate.exchange(SecurityConstant.URL +
-                    "8081/api/v1/user/search/email?email=" + userName, HttpMethod.GET, new HttpEntity<>(httpHeaders), UserDTO.class).getBody();
+            UserDTO userDTO = WebClient.create(SecurityConstant.URL +
+                    "8081/api/v1/user/search/email?email=" + userName).get().
+                    headers(h -> h.add(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION))).retrieve().bodyToMono(UserDTO.class).block();
             hashPwd = userDTO.getPwd();
             userEmail = userDTO.getEmail();
             role = userDTO.getRole().name();
