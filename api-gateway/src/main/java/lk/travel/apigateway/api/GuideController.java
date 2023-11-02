@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 
 @RestController
@@ -26,12 +27,12 @@ public class GuideController {
     @PostMapping
     public ResponseEntity<GuideDTO> saveGuide(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody GuideDTO guideDTO) {
 
-        return WebClient.create(URL).post().body(guideDTO, GuideDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers))
+        return WebClient.create(URL).post().body(Mono.just(guideDTO), GuideDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers))
                 .retrieve().toEntity(GuideDTO.class).block();
     }
     @PutMapping
     public ResponseEntity<GuideDTO> updateGuide(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody GuideDTO guideDTO) {
-    return WebClient.create(URL).post().body(guideDTO, GuideDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers))
+    return WebClient.create(URL).put().body(Mono.just(guideDTO), GuideDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers))
                 .retrieve().toEntity(GuideDTO.class).block();
 
     }
@@ -60,8 +61,9 @@ public class GuideController {
     }
 
     @GetMapping
-    public ResponseEntity getAllGuide(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
-        return WebClient.create(URL).get().headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(GuideDTO[].class).block();
+    public ResponseEntity<List<GuideDTO>> getAllGuide(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
+        GuideDTO[] body = WebClient.create(URL).get().headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(GuideDTO[].class).block().getBody();
+        return new ResponseEntity(Arrays.asList(body), HttpStatus.OK);
 
     }
 

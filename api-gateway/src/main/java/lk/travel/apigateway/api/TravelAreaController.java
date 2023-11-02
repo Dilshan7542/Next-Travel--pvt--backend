@@ -18,8 +18,8 @@ import java.util.List;
 public class TravelAreaController {
     private final String URL = SecurityConstant.URL+"8084/api/v1/travel/area";
     @PostMapping
-    public Mono<TravelAreaDTO> saveTravelArea(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody TravelAreaDTO travelArea) {
-        return WebClient.create(URL).post().body(Mono.just(travelArea), TravelAreaDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().bodyToMono(TravelAreaDTO.class);
+    public ResponseEntity<TravelAreaDTO> saveTravelArea(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody TravelAreaDTO travelArea) {
+        return WebClient.create(URL).post().body(Mono.just(travelArea), TravelAreaDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(TravelAreaDTO.class).block();
     }
 
     @PutMapping

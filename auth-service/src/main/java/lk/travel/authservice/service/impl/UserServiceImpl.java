@@ -60,6 +60,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getAllUser() {
-       return mapper.map(userRepo.findAll(),new TypeToken<List<UserDTO>>(){}.getType());
+       List<UserDTO> map=  mapper.map(userRepo.findAll(),new TypeToken<List<UserDTO>>(){}.getType());
+        for (UserDTO userDTO : map) {
+            userDTO.setPwd(null);
+        }
+       return map;
     }
 }

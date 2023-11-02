@@ -21,14 +21,15 @@ import java.util.List;
 public class UserController {
     private final RestTemplate restTemplate;
     private final String URL = SecurityConstant.URL+"8081/api/v1/user";
-    @PostMapping
+    @PostMapping(path = "/register")
     public Mono<UserDTO> saveUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody UserDTO userDTO) {
-        return WebClient.create(URL).post().body(Mono.just(userDTO), UserDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().bodyToMono(UserDTO.class);
+        System.out.println("IS HERE");
+        return WebClient.create(URL+"/register").post().body(Mono.just(userDTO), UserDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().bodyToMono(UserDTO.class);
     }
 
-    @PutMapping
+    @PutMapping(path = "update")
     public ResponseEntity<UserDTO> updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody UserDTO userDTO) {
-        return WebClient.create(URL).put().body(Mono.just(userDTO), UserDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(UserDTO.class).block();
+        return WebClient.create(URL+"/update").put().body(Mono.just(userDTO), UserDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(UserDTO.class).block();
     }
 
 
@@ -50,8 +51,8 @@ public class UserController {
     }
 
 
-    @DeleteMapping(params = "userID")
-    public ResponseEntity<Void> deleteUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestParam int userID) {
+    @DeleteMapping(path = "{userID}")
+    public ResponseEntity<Void> deleteUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @PathVariable int userID) {
         System.out.println(headers);
         return WebClient.create(URL + "/" + userID).delete().headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(Void.class).block();
 

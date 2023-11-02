@@ -25,7 +25,7 @@ public class UserController {
         return ResponseEntity.ok(userService.saveUser(userDTO));
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
         userDTO.setPwd(passwordEncoder.encode(userDTO.getPwd()));
         return ResponseEntity.ok(userService.updateUser(userDTO));
@@ -46,6 +46,11 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUser());
+    }
+    @DeleteMapping(path = "{userID}")
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable int userID){
+        userService.deleteUser(userID);
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
 }

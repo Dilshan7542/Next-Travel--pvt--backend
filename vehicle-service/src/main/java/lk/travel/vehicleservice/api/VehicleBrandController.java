@@ -35,10 +35,10 @@ public class VehicleBrandController {
         return new ResponseEntity<>(vehicleBrandService.updateVehicleBrand(vehicleBrandDTO), HttpStatus.OK);
     }
 
-    @PutMapping(path = "image", params = "vehicleBrandID", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<VehicleBrandDTO> uploadImageVehicleBrand(@RequestPart MultipartFile multipartFile, @RequestParam int vehicleBrandID) throws IOException {
-        VehicleBrandDTO vehicleBrandDTO = vehicleBrandService.searchVehicleBrand(vehicleBrandID);
-        vehicleBrandDTO.setImage(multipartFile.getBytes());
+    @PutMapping(path = "image/{vehicleID}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<VehicleBrandDTO> uploadImageVehicleBrand(@RequestPart byte[] file, @PathVariable int vehicleID) throws IOException {
+        VehicleBrandDTO vehicleBrandDTO = vehicleBrandService.searchVehicleBrand(vehicleID);
+        vehicleBrandDTO.setImage(file);
         return new ResponseEntity<>(vehicleBrandService.updateVehicleBrand(vehicleBrandDTO), HttpStatus.OK);
     }
 

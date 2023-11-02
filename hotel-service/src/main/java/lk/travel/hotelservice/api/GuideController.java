@@ -23,7 +23,7 @@ public class GuideController {
 
     @PutMapping
     public ResponseEntity<GuideDTO> updateGuide(@RequestBody GuideDTO guideDTO) {
-        return ResponseEntity.ok(guideService.saveGuide(guideDTO));
+        return ResponseEntity.ok(guideService.updateGuide(guideDTO));
     }
 
     @GetMapping(path = "search", params = "guideID")
