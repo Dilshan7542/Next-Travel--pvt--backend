@@ -16,7 +16,7 @@ import java.util.List;
 public class TravelDTO {
     private int travelID;
    // @JsonFormat(pattern = "HH:mm")
-    @JsonFormat(pattern = "yyy-MM-dd")
+    @JsonFormat(pattern = "yyy-MM-dd") //
     private LocalDate startDate;
     @JsonFormat(pattern = "yyy-MM-dd")
     private LocalDate endDate;

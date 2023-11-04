@@ -62,4 +62,8 @@ public class VehicleBrandController {
     public ResponseEntity<List<VehicleBrandDTO>> getAllVehicleBrandWithOutImage() {
         return new ResponseEntity<>(vehicleBrandService.getAllVehicleCategoryWithOutImage(), HttpStatus.OK);
     }
+    @GetMapping(path = "search/category/{vehicleCategoryID}")
+    public ResponseEntity<List<VehicleBrandDTO>> findAllVehicleCategory(@PathVariable int vehicleCategoryID) {
+        return new ResponseEntity<>(vehicleBrandService.findByAllVehicleCategoryID(vehicleCategoryID), HttpStatus.OK);
+    }
 }

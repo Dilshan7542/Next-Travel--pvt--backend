@@ -8,4 +8,5 @@ import java.util.Collection;
 import java.util.List;
 
 public interface HotelRepo extends JpaRepository<Hotel,Integer> {
+    List<Hotel> findAllByLocation(String location);
 }

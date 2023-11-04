@@ -26,11 +26,12 @@ public class HotelController {
         return new ResponseEntity(hotelService.updateHotel(hotelDTO), HttpStatus.OK);
     }
 
-    @PutMapping(path = "image", params = "hotelID", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<HotelDTO> updateImageHotel(@RequestPart byte[] image, @RequestParam int hotelID) {
+    @PutMapping(path = "image/{hotelID}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<HotelDTO> updateImageHotel(@RequestPart byte[] image, @PathVariable int hotelID) {
         HotelDTO hotelDTO = hotelService.searchHotel(hotelID);
         hotelDTO.setImage(image);
-        return new ResponseEntity(hotelService.updateHotel(hotelDTO), HttpStatus.OK);
+        hotelService.updateHotel(hotelDTO);
+        return new ResponseEntity(null, HttpStatus.OK);
     }
 
     @GetMapping(path = "search", params = "hotelID")
@@ -47,6 +48,10 @@ public class HotelController {
     @GetMapping
     public ResponseEntity<List<HotelDTO>> getAllHotel() {
         return ResponseEntity.ok(hotelService.getAllHotel());
+    }
+    @GetMapping(path = "search/location/{location}")
+    public ResponseEntity<List<HotelDTO>> getAllHotelFindByLocation(@PathVariable String location) {
+        return new ResponseEntity<>(hotelService.getAllHotelFindByLocation(location),HttpStatus.OK);
     }
     @GetMapping(path = "!image")
     public ResponseEntity<List<HotelDTO>> getAllHotelWithOutImage() {

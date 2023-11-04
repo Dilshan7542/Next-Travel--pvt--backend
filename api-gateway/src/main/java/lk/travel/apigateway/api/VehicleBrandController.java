@@ -27,6 +27,7 @@ import java.util.Map;
 @RequestMapping("api/v1/gateway/vehicle/brand")
 @RequiredArgsConstructor
 public class VehicleBrandController {
+    private final WebClient webClient;
     private final String URL = SecurityConstant.URL+"8085/api/v1/vehicle/brand";
     @PostMapping
     public Mono<VehicleBrandDTO> saveVehicleBrand(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody VehicleBrandDTO vehicleBrandDTO) {
@@ -53,7 +54,7 @@ public class VehicleBrandController {
     @GetMapping(path = "search/{vehicleID}")
     public ResponseEntity searchVehicleBrand(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @PathVariable("vehicleID") int vehicleID) {
         try {
-            return WebClient.create(URL + "/search/" + vehicleID).get().headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(VehicleBrandDTO.class).block();
+            return webClient.get().uri(URL + "/search/" + vehicleID).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(VehicleBrandDTO.class).block();
 
         } catch (Exception e) {
             throw new RuntimeException("VehicleBrand Not Exists..!!");
@@ -69,12 +70,17 @@ public class VehicleBrandController {
     }
     @GetMapping
     public ResponseEntity getAllVehicleBrand(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
-        VehicleBrandDTO[] body = WebClient.create(URL).get().headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(VehicleBrandDTO[].class).block().getBody();
+        VehicleBrandDTO[] body = webClient.get().uri(URL).headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(VehicleBrandDTO[].class).block().getBody();
         return new ResponseEntity(Arrays.asList(body), HttpStatus.OK);
     }
     @GetMapping(path = "!image")
     public ResponseEntity<List<VehicleCategoryDTO>> getAllVehicleBrandWithOutImage(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
-        VehicleBrandDTO[] body = WebClient.create(URL + "/!image").get().headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(VehicleBrandDTO[].class).block().getBody();
+        VehicleBrandDTO[] body = webClient.get().uri(URL + "/!image").headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(VehicleBrandDTO[].class).block().getBody();
+        return new ResponseEntity(Arrays.asList(body), HttpStatus.OK);
+    }
+    @GetMapping(path = "search/category/{vehicleCategoryID}")
+    public ResponseEntity findAllVehicleCategoryID(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers,@PathVariable int vehicleCategoryID) {
+        VehicleBrandDTO[] body = webClient.get().uri(URL+"/search/category/"+vehicleCategoryID).headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(VehicleBrandDTO[].class).block().getBody();
         return new ResponseEntity(Arrays.asList(body), HttpStatus.OK);
     }
 }

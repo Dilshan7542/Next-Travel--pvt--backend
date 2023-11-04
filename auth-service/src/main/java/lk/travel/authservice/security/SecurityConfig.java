@@ -49,7 +49,6 @@ public class SecurityConfig {
                     request
                             .requestMatchers("api/v1/user/register","api/v1/user/update").hasRole("MANAGER")
                             .requestMatchers("api/v1/user/**").hasAnyRole("MANAGER","ADMIN").anyRequest().authenticated();
-                    //   .requestMatchers("/api/v1/user/register").permitAll();
 
                 });
         httpSecurity.httpBasic(Customizer.withDefaults()).formLogin(Customizer.withDefaults());

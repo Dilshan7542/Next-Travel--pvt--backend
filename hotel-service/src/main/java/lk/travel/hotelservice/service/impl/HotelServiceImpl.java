@@ -60,6 +60,11 @@ private final EntityManager entityManager;
     }
 
     @Override
+    public List<HotelDTO> getAllHotelFindByLocation(String location) {
+        return mapper.map(hotelRepo.findAllByLocation(location),new TypeToken<List<HotelDTO>>(){}.getType());
+    }
+
+    @Override
     public List<HotelDTO> getAllHotelWithOutImage() {
         List<Hotel> list = hotelRepo.findAll();
         for (Hotel hotel : list) {

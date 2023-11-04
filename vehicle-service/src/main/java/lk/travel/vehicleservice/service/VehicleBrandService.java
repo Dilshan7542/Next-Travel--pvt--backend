@@ -12,4 +12,5 @@ public interface VehicleBrandService {
     void deleteVehicleBrand(int vehicleID);
     List<VehicleBrandDTO> getAllVehicleCategoryWithOutImage();
     List<VehicleBrandDTO> getAllVehicleBrand();
+    List<VehicleBrandDTO> findByAllVehicleCategoryID(int vehicleCategoryID);
 }

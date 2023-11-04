@@ -4,7 +4,9 @@ import jakarta.persistence.EntityManager;
 import lk.travel.vehicleservice.dto.VehicleBrandDTO;
 import lk.travel.vehicleservice.dto.VehicleCategoryDTO;
 import lk.travel.vehicleservice.entity.VehicleBrand;
+import lk.travel.vehicleservice.entity.VehicleCategory;
 import lk.travel.vehicleservice.repo.VehicleBrandRepo;
+import lk.travel.vehicleservice.repo.VehicleCategoryRepo;
 import lk.travel.vehicleservice.service.VehicleBrandService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VehicleBrandServiceImpl implements VehicleBrandService {
     private final VehicleBrandRepo vehicleBrandRepo;
+    private final VehicleCategoryRepo vehicleCategoryRepo;
     private final ModelMapper mapper;
     private final EntityManager entityManager;
 
@@ -59,6 +62,11 @@ public class VehicleBrandServiceImpl implements VehicleBrandService {
     @Override
     public List<VehicleBrandDTO> getAllVehicleBrand() {
         return mapper.map(vehicleBrandRepo.findAll(), new TypeToken<List<VehicleBrandDTO>>() {}.getType());
+    }
+
+    @Override
+    public List<VehicleBrandDTO> findByAllVehicleCategoryID(int vehicleCategoryID) {
+        return mapper.map(vehicleBrandRepo.findAllByVehicleCategory( vehicleCategoryRepo.findById(vehicleCategoryID).get()), new TypeToken<List<VehicleBrandDTO>>() {}.getType());
     }
 
     @Override

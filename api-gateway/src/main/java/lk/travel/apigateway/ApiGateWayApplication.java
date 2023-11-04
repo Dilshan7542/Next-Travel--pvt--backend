@@ -23,7 +23,7 @@ public class ApiGateWayApplication{
     @Bean
     @LoadBalanced
     public WebClient webClient() {
-        final int size = 16 * 1024 * 1024;
+        final int size = 1000 * 1024 * 1024 ;
         final ExchangeStrategies strategies = ExchangeStrategies.builder()
                 .codecs(codecs -> codecs.defaultCodecs().maxInMemorySize(size))
                 .build();

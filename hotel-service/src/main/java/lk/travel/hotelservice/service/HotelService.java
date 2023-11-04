@@ -11,5 +11,6 @@ public interface HotelService {
     HotelDTO searchHotel(int hotelID);
     void deleteHotel(int hotelID);
     List<HotelDTO> getAllHotel();
+    List<HotelDTO> getAllHotelFindByLocation(String location);
     List<HotelDTO> getAllHotelWithOutImage();
 }
