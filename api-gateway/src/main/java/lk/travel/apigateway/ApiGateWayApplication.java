@@ -14,8 +14,7 @@ public class ApiGateWayApplication{
     public static void main(String[] args) {
         SpringApplication.run(ApiGateWayApplication.class);
     }
-    @Bean
-    @LoadBalanced
+   @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }

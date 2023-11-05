@@ -26,12 +26,8 @@ public class JwtValidateFilter extends OncePerRequestFilter {
 
         if(header !=null && !header.startsWith("Basic")) {
             header = header.startsWith("Bearer ") ? header.substring(7) : header;
-            SecretKey secretKey = null;
-            if (request.getServletPath().startsWith("/api/v1/gateway/customer") || request.getServletPath().startsWith("/api/v1/gateway/booking")) {
-                secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_CUSTOMER.getBytes(StandardCharsets.UTF_8));
-            } else {
-                secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_USER.getBytes(StandardCharsets.UTF_8));
-            }
+            SecretKey secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_USER.getBytes(StandardCharsets.UTF_8));
+
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()

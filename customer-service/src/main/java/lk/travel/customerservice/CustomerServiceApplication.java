@@ -16,7 +16,6 @@ public class CustomerServiceApplication {
     }
 
     @Bean
-    @LoadBalanced
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }

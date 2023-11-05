@@ -46,14 +46,14 @@ public class AuthenticationConfig implements AuthenticationProvider {
         String userEmail = null;
         String hashPwd = "";
         String role = "";
-        if (request.getServletPath().startsWith("/api/v1/gateway/customer")|| (request.getServletPath().startsWith("/api/v1/gateway/booking"))) {
+        if (request.getServletPath().startsWith("/api/v1/gateway/customer")) {
 
             CustomerDTO customerDTO = WebClient.create(SecurityConstant.URL +
                     "8082/api/v1/customer/search/email?email=" + userName).get().
                     headers(h -> h.add(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION))).retrieve().bodyToMono(CustomerDTO.class).block();
             hashPwd = customerDTO.getPwd();
             userEmail = customerDTO.getEmail();
-            role = "USER";
+            role = "ADMIN";
         } else {
             UserDTO userDTO = WebClient.create(SecurityConstant.URL +
                     "8081/api/v1/user/search/email?email=" + userName).get().

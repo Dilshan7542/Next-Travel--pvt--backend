@@ -26,9 +26,7 @@ public class JwtCustomerValidateFilter extends OncePerRequestFilter {
         System.out.println(header);
         if(header !=null && !header.startsWith("Basic")) {
             header = header.startsWith("Bearer ") ? header.substring(7) : header;
-
-            SecretKey  secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_CUSTOMER.getBytes(StandardCharsets.UTF_8));
-
+            SecretKey  secretKey = Keys.hmacShaKeyFor(SecurityConstant.JWT_SECRET_KEY_USER.getBytes(StandardCharsets.UTF_8));
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
