@@ -23,7 +23,7 @@ public class TravelServiceImpl implements TravelService {
         if(travelRepo.existsById(travelDTO.getTravelID())){
             throw new RuntimeException("Travel Already Exists..!!");
         }
-        travelRepo.save(mapper.map(travelDTO, Travel.class));
+  travelDTO.setTravelID(travelRepo.save(mapper.map(travelDTO, Travel.class)).getTravelID());
         return travelDTO;
     }
 

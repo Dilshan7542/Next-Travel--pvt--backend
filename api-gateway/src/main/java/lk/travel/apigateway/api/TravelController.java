@@ -19,9 +19,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TravelController {
     private final String URL = SecurityConstant.URL+"8084/api/v1/travel";
+
     @PostMapping
-    public Mono<TravelDTO> saveTravel(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody TravelDTO travelDTO) {
-        return WebClient.create(URL).post().body(Mono.just(travelDTO), TravelDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().bodyToMono(TravelDTO.class);
+    public ResponseEntity<TravelDTO> saveTravel(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody TravelDTO travelDTO) {
+        return WebClient.create(URL).post().body(Mono.just(travelDTO), TravelDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(TravelDTO.class).block();
     }
 
     @PutMapping
@@ -34,7 +35,6 @@ public class TravelController {
     public ResponseEntity searchTravel(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @PathVariable("travelID") int travelID) {
         try {
             return WebClient.create(URL + "/search/" + travelID).get().headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(TravelDTO.class).block();
-
         } catch (Exception e) {
             throw new RuntimeException("Travel Not Exists..!!");
         }

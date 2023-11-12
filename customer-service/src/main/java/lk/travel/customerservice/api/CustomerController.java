@@ -26,7 +26,7 @@ public class CustomerController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO) {
-        customerDTO.setPwd(passwordEncoder.encode(customerDTO.getPwd()));
+       // customerDTO.setPwd(passwordEncoder.encode(customerDTO.getPwd()));
         return new ResponseEntity<>(customerService.updateCustomer(customerDTO), HttpStatus.OK);
     }
 

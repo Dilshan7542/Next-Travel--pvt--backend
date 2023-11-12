@@ -32,8 +32,9 @@ public class CustomerServiceImpl implements CustomerService {
         if(!customerRepo.existsById(customerDTO.getCustomerID())){
             throw new RuntimeException("Customer Not Exists..!!");
         }
-        customerRepo.save(mapper.map(customerDTO, Customer.class));
-        return customerDTO;
+        customerRepo.updateCustomer(customerDTO.getNic(),customerDTO.getName(),customerDTO.getAddress(),customerDTO.getTel(),customerDTO.getCustomerID());
+
+        return searchCustomerUpdate(customerDTO.getCustomerID());
     }
 
     @Override
@@ -43,7 +44,9 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return mapper.map(customerRepo.findById(customerID),CustomerDTO.class);
     }
-
+    private CustomerDTO searchCustomerUpdate(int customerID) {
+        return mapper.map(customerRepo.findById(customerID),CustomerDTO.class);
+    }
     @Override
     public CustomerDTO searchByEmailCustomer(String email) {
         return mapper.map(customerRepo.findByEmail(email),CustomerDTO.class);
