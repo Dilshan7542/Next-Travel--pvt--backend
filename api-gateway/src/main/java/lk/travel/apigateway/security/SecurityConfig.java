@@ -51,8 +51,14 @@ public class SecurityConfig {
                 .addFilterAfter(new JwtGenerateFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> {
-                    request
-                            .requestMatchers("/api/v1/gateway/customer/register").permitAll()
+                    request.requestMatchers(
+                                    "/api/v1/gateway/customer/register",
+                                    "/api/v1/gateway/hotel/all",
+                                    "/api/v1/gateway/hotel/search/location/**",
+                                    "/api/v1/gateway/travel/area/all",
+                                    "/api/v1/gateway/vehicle/brand/all",
+                                    "/api/v1/gateway/vehicle/brand/search/**",
+                                    "/api/v1/gateway/vehicle/category/all").permitAll()
                             .requestMatchers("/api/v1/gateway/**").authenticated();
                 });
         httpSecurity.httpBasic(Customizer.withDefaults()).formLogin(Customizer.withDefaults());

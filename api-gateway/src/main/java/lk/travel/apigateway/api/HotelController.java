@@ -75,9 +75,9 @@ public class HotelController {
 
     }
 
-    @GetMapping
+    @GetMapping(path="all")
     public ResponseEntity<List<HotelDTO>> getAllHotel(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
-        HotelDTO[] hotelDTOS = webClient.get().uri(URL).headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(HotelDTO[].class).block().getBody();
+        HotelDTO[] hotelDTOS = webClient.get().uri(URL+"/all").headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(HotelDTO[].class).block().getBody();
         return ResponseEntity.ok(Arrays.asList(hotelDTOS));
     }
     @GetMapping(path = "!image")

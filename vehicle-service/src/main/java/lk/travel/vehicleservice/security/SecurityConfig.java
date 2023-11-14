@@ -42,7 +42,8 @@ public class SecurityConfig {
         }).csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> {
-            request.requestMatchers("/api/v1/vehicle/**").hasAnyRole("MANAGER", "ADMIN").anyRequest().authenticated();
+            request.requestMatchers("/api/v1/vehicle/brand/all","/api/v1/vehicle/brand/search/**","/api/v1/vehicle/category/all").permitAll()
+                    .requestMatchers("/api/v1/vehicle/**").hasAnyRole("MANAGER", "ADMIN").anyRequest().authenticated();
         });
         return httpSecurity.httpBasic(Customizer.withDefaults()).build();
     }

@@ -38,7 +38,7 @@ public class VehicleCategoryController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(path = "all")
     public ResponseEntity<List<VehicleCategoryDTO>> getAllVehicleCategory() {
         return new ResponseEntity<>(vehicleCategoryService.getAllVehicleCategory(), HttpStatus.OK);
     }

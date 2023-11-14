@@ -36,7 +36,7 @@ public class TravelAreaController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(path = "all")
     public ResponseEntity<List<TravelAreaDTO>> getAllTravelCategory() {
         return new ResponseEntity<>(travelAreaService.getAllTravelArea(), HttpStatus.OK);
     }

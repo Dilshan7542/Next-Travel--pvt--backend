@@ -47,9 +47,9 @@ public class VehicleCategoryController {
 
     }
 
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<List<VehicleCategoryDTO>> getAllVehicleCategory(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
-        VehicleCategoryDTO[] body = WebClient.create(URL).get().headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(VehicleCategoryDTO[].class).block().getBody();
+        VehicleCategoryDTO[] body = WebClient.create(URL+"/all").get().headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(VehicleCategoryDTO[].class).block().getBody();
         return new ResponseEntity<>(Arrays.asList(body), HttpStatus.OK);
     }
 }

@@ -44,6 +44,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtValidateFilter(), BasicAuthenticationFilter.class)
             //    .addFilterAfter(new CsrfCookieFilter(),BasicAuthenticationFilter.class)
                 .authorizeHttpRequests( auth-> auth
+                        .requestMatchers("/api/v1/hotel/all","/api/v1/hotel/search/location/**").permitAll()
                         .requestMatchers("/api/v1/hotel/**").hasAnyRole("ADMIN","MANAGER").anyRequest().authenticated()
 
                 );

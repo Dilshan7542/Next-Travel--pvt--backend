@@ -46,9 +46,9 @@ public class TravelAreaController {
 
     }
 
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<List<TravelAreaDTO>> getAllTravelArea(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
-        TravelAreaDTO[] body = WebClient.create(URL).get().headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(TravelAreaDTO[].class).block().getBody();
+        TravelAreaDTO[] body = WebClient.create(URL+"/all").get().headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(TravelAreaDTO[].class).block().getBody();
         return new ResponseEntity(Arrays.asList(body), HttpStatus.OK);
     }
 }

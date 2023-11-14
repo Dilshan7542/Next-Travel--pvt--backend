@@ -68,9 +68,9 @@ public class VehicleBrandController {
         return WebClient.create(URL + "/" + vehicleID).delete().headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(Void.class).block();
 
     }
-    @GetMapping
+    @GetMapping(path = "all")
     public ResponseEntity getAllVehicleBrand(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
-        VehicleBrandDTO[] body = webClient.get().uri(URL).headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(VehicleBrandDTO[].class).block().getBody();
+        VehicleBrandDTO[] body = webClient.get().uri(URL+"/all").headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(VehicleBrandDTO[].class).block().getBody();
         return new ResponseEntity(Arrays.asList(body), HttpStatus.OK);
     }
     @GetMapping(path = "!image")

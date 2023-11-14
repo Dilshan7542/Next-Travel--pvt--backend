@@ -54,7 +54,7 @@ public class VehicleBrandController {
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(path = "all")
     public ResponseEntity<List<VehicleBrandDTO>> getAllVehicleBrand() {
         return new ResponseEntity<>(vehicleBrandService.getAllVehicleBrand(), HttpStatus.OK);
     }

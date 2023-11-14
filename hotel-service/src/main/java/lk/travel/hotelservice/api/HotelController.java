@@ -45,7 +45,7 @@ public class HotelController {
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(path = "all")
     public ResponseEntity<List<HotelDTO>> getAllHotel() {
         return ResponseEntity.ok(hotelService.getAllHotel());
     }
