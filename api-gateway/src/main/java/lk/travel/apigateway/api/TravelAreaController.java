@@ -17,21 +17,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TravelAreaController {
     private final String URL = SecurityConstant.URL+"8084/api/v1/travel/area";
+    private final WebClient webClient;
     @PostMapping
     public ResponseEntity<TravelAreaDTO> saveTravelArea(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody TravelAreaDTO travelArea) {
-        return WebClient.create(URL).post().body(Mono.just(travelArea), TravelAreaDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(TravelAreaDTO.class).block();
+        return webClient.post().uri(URL).body(Mono.just(travelArea), TravelAreaDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(TravelAreaDTO.class).block();
     }
 
     @PutMapping
     public ResponseEntity<TravelAreaDTO> updateTravelArea(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @RequestBody TravelAreaDTO travelArea) {
-        return WebClient.create(URL).put().body(Mono.just(travelArea), TravelAreaDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(TravelAreaDTO.class).block();
+        return webClient.put().uri(URL).body(Mono.just(travelArea), TravelAreaDTO.class).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(TravelAreaDTO.class).block();
     }
 
 
     @GetMapping(path = "search/{travelAreaID}")
     public ResponseEntity searchTravelArea(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers, @PathVariable int travelAreaID) {
         try {
-            return WebClient.create(URL + "/search/" + travelAreaID).get().headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(TravelAreaDTO.class).block();
+            return webClient.get().uri(URL + "/search/" + travelAreaID).headers(h -> h.set(HttpHeaders.AUTHORIZATION,headers)).retrieve().toEntity(TravelAreaDTO.class).block();
 
         } catch (Exception e) {
             throw new RuntimeException("TravelArea Not Exists..!!");
@@ -48,7 +49,7 @@ public class TravelAreaController {
 
     @GetMapping("all")
     public ResponseEntity<List<TravelAreaDTO>> getAllTravelArea(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
-        TravelAreaDTO[] body = WebClient.create(URL+"/all").get().headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(TravelAreaDTO[].class).block().getBody();
+        TravelAreaDTO[] body = webClient.get().uri(URL+"/all").headers(h -> h.set(HttpHeaders.AUTHORIZATION, headers)).retrieve().toEntity(TravelAreaDTO[].class).block().getBody();
         return new ResponseEntity(Arrays.asList(body), HttpStatus.OK);
     }
 }
